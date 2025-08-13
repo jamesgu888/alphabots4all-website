@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Add Blog Post - Alphabots4All</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .admin-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .admin-form {
+            background: var(--neu-bg);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 
+                16px 16px 24px var(--neu-shadow-dark),
+                -16px -16px 24px var(--neu-shadow-light);
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 2rem;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 700;
+            color: var(--neu-text-dark);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--neu-primary) 0%, var(--neu-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 15px;
+            background: var(--neu-bg);
+            box-shadow: 
+                inset 8px 8px 16px var(--neu-shadow-dark),
+                inset -8px -8px 16px var(--neu-shadow-light);
+            color: var(--neu-text-dark);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            box-shadow: 
+                inset 6px 6px 12px var(--neu-shadow-dark),
+                inset -6px -6px 12px var(--neu-shadow-light),
+                0 0 0 2px var(--neu-primary);
+        }
+        
+        .form-textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+        
+        .tags-input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .tag-item {
+            background: var(--neu-bg);
+            color: var(--neu-primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 
+                4px 4px 8px var(--neu-shadow-dark),
+                -4px -4px 8px var(--neu-shadow-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .tag-remove {
+            background: none;
+            border: none;
+            color: var(--neu-primary);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        
+        .image-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .image-preview {
+            width: 200px;
+            height: 200px;
+            background: var(--neu-bg);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                inset 6px 6px 12px var(--neu-shadow-dark),
+                inset -6px -6px 12px var(--neu-shadow-light);
+            margin-bottom: 1rem;
+            font-size: 3rem;
+            color: var(--neu-text-light);
+        }
+        
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+        
+        .btn-admin {
+            background: linear-gradient(135deg, var(--neu-primary) 0%, var(--neu-secondary) 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 
+                8px 8px 16px var(--neu-shadow-dark),
+                -8px -8px 16px var(--neu-shadow-light);
+        }
+        
+        .btn-admin:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                10px 10px 20px var(--neu-shadow-dark),
+                -10px -10px 20px var(--neu-shadow-light);
+        }
+        
+        .btn-secondary {
+            background: var(--neu-bg);
+            color: var(--neu-primary);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 
+                6px 6px 12px var(--neu-shadow-dark),
+                -6px -6px 12px var(--neu-shadow-light);
+            margin-left: 1rem;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-1px);
+            box-shadow: 
+                8px 8px 16px var(--neu-shadow-dark),
+                -8px -8px 16px var(--neu-shadow-light);
+        }
+        
+        .output-section {
+            background: var(--neu-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 
+                inset 8px 8px 16px var(--neu-shadow-dark),
+                inset -8px -8px 16px var(--neu-shadow-light);
+        }
+        
+        .output-code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--neu-primary);
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .content-tools {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-tool {
+            background: var(--neu-bg);
+            color: var(--neu-primary);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 
+                4px 4px 8px var(--neu-shadow-dark),
+                -4px -4px 8px var(--neu-shadow-light);
+        }
+        
+        .btn-tool:hover {
+            transform: translateY(-1px);
+            box-shadow: 
+                6px 6px 12px var(--neu-shadow-dark),
+                -6px -6px 12px var(--neu-shadow-light);
+        }
+        
+        .image-insert-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content-small {
+            background: var(--neu-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 
+                16px 16px 24px var(--neu-shadow-dark),
+                -16px -16px 24px var(--neu-shadow-light);
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--neu-primary) 0%, var(--neu-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .image-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .image-option {
+            background: var(--neu-bg);
+            border: 2px solid transparent;
+            padding: 1rem;
+            border-radius: 15px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 
+                6px 6px 12px var(--neu-shadow-dark),
+                -6px -6px 12px var(--neu-shadow-light);
+        }
+        
+        .image-option:hover {
+            border-color: var(--neu-primary);
+            transform: translateY(-2px);
+        }
+        
+        .image-option.selected {
+            border-color: var(--neu-primary);
+            box-shadow: 
+                inset 4px 4px 8px var(--neu-shadow-dark),
+                inset -4px -4px 8px var(--neu-shadow-light);
+        }
+        
+        .option-preview {
+            width: 100%;
+            height: 80px;
+            background: var(--neu-bg);
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 
+                inset 3px 3px 6px var(--neu-shadow-dark),
+                inset -3px -3px 6px var(--neu-shadow-light);
+        }
+        
+        .option-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--neu-text-dark);
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="neural-bg"></canvas>
+    
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <svg class="logo-svg" viewBox="0 0 60 60">
+                    <circle cx="20" cy="20" r="3" class="neuron"></circle>
+                    <circle cx="40" cy="20" r="3" class="neuron"></circle>
+                    <circle cx="30" cy="35" r="3" class="neuron"></circle>
+                    <circle cx="20" cy="45" r="3" class="neuron"></circle>
+                    <circle cx="40" cy="45" r="3" class="neuron"></circle>
+                    <line x1="20" y1="20" x2="30" y2="35" class="synapse"></line>
+                    <line x1="40" y1="20" x2="30" y2="35" class="synapse"></line>
+                    <line x1="30" y1="35" x2="20" y2="45" class="synapse"></line>
+                    <line x1="30" y1="35" x2="40" y2="45" class="synapse"></line>
+                </svg>
+                <span>Alphabots4All</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="neural-link">Home</a></li>
+                <li><a href="about.html" class="neural-link">About</a></li>
+                <li><a href="events.html" class="neural-link">Events</a></li>
+                <li><a href="index.html#donate" class="btn-donate">Donate</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="blog-post-page">
+        <div class="container">
+            <div class="admin-container">
+                <h1 class="section-title">Add New Blog Post</h1>
+                
+                <form class="admin-form" id="blogForm">
+                    <div class="form-group">
+                        <label class="form-label" for="postTitle">Blog Post Title</label>
+                        <input type="text" id="postTitle" class="form-input" placeholder="Enter blog post title..." required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="postDate">Date</label>
+                        <input type="date" id="postDate" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="postImage">Featured Image</label>
+                        <div class="image-upload">
+                            <div class="image-preview" id="imagePreview">📷</div>
+                            <input type="file" id="postImage" class="form-input" accept="image/*" onchange="previewImage(this)">
+                            <small style="color: var(--neu-text-light);">Upload an image or it will use an emoji placeholder</small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="postEmoji">Emoji (if no image)</label>
+                        <input type="text" id="postEmoji" class="form-input" placeholder="🏆" maxlength="2">
+                        <small style="color: var(--neu-text-light);">Single emoji to use if no image is uploaded</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="postExcerpt">Short Description (for events page)</label>
+                        <textarea id="postExcerpt" class="form-textarea" placeholder="Brief description for the events listing page..." required style="min-height: 100px;"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="postContent">Full Blog Content</label>
+                        <div class="content-tools">
+                            <button type="button" class="btn-tool" onclick="insertImage()">📷 Insert Image</button>
+                            <button type="button" class="btn-tool" onclick="insertHeading()">📝 Add Heading</button>
+                            <button type="button" class="btn-tool" onclick="insertList()">📋 Add List</button>
+                            <button type="button" class="btn-tool" onclick="insertQuote()">💬 Add Quote</button>
+                        </div>
+                        <textarea id="postContent" class="form-textarea" placeholder="Write your full blog post content here using HTML tags like <h4>, <p>, <ul>, <li>, etc..." required></textarea>
+                        <small style="color: var(--neu-text-light);">Use the tools above to insert formatted content, or write HTML directly.</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="tagInput">Tags</label>
+                        <input type="text" id="tagInput" class="form-input" placeholder="Type a tag and press Enter...">
+                        <div class="tags-input" id="tagsContainer"></div>
+                    </div>
+                    
+                    <button type="submit" class="btn-admin">Generate Blog Post Files</button>
+                    <button type="button" class="btn-secondary" onclick="clearForm()">Clear Form</button>
+                </form>
+                
+                <div class="output-section" id="outputSection" style="display: none;">
+                    <h3>Generated Files:</h3>
+                    <p>Copy the content below and save as the specified filename:</p>
+                    
+                    <h4>1. HTML File (<span id="htmlFilename"></span>):</h4>
+                    <div style="position: relative;">
+                        <button class="copy-btn" onclick="copyToClipboard('htmlOutput')">Copy</button>
+                        <pre class="output-code" id="htmlOutput"></pre>
+                    </div>
+                    
+                    <h4>2. Events Page Update:</h4>
+                    <p>Add this HTML to your events.html file in the events grid:</p>
+                    <div style="position: relative;">
+                        <button class="copy-btn" onclick="copyToClipboard('eventsOutput')">Copy</button>
+                        <pre class="output-code" id="eventsOutput"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Image Insert Modal -->
+        <div class="image-insert-modal" id="imageModal">
+            <div class="modal-content-small">
+                <h3 class="modal-title">Insert Image</h3>
+                
+                <div class="form-group">
+                    <label class="form-label">Image Source</label>
+                    <input type="text" id="imageUrl" class="form-input" placeholder="Enter image URL or filename (e.g., images/photo.jpg)">
+                    <small style="color: var(--neu-text-light);">Or use an emoji like 🏆 📷 🎉</small>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Alt Text</label>
+                    <input type="text" id="imageAlt" class="form-input" placeholder="Describe the image for accessibility">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Image Style</label>
+                    <div class="image-options">
+                        <div class="image-option" data-style="center" onclick="selectImageStyle('center')">
+                            <div class="option-preview">🖼️</div>
+                            <div class="option-label">Center</div>
+                        </div>
+                        <div class="image-option" data-style="left" onclick="selectImageStyle('left')">
+                            <div class="option-preview">📄🖼️</div>
+                            <div class="option-label">Float Left</div>
+                        </div>
+                        <div class="image-option" data-style="right" onclick="selectImageStyle('right')">
+                            <div class="option-preview">🖼️📄</div>
+                            <div class="option-label">Float Right</div>
+                        </div>
+                        <div class="image-option" data-style="fullwidth" onclick="selectImageStyle('fullwidth')">
+                            <div class="option-preview">🖼️</div>
+                            <div class="option-label">Full Width</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-buttons">
+                    <button class="btn-admin" onclick="insertImageContent()">Insert Image</button>
+                    <button class="btn-secondary" onclick="closeImageModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Alphabots4All</h4>
+                <p>Connecting minds to STEM education through innovative programs and community support.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook">FB</a>
+                    <a href="#" aria-label="Twitter">TW</a>
+                    <a href="#" aria-label="LinkedIn">LI</a>
+                    <a href="#" aria-label="Instagram">IG</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>Email: info@alphabots4all.org</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Alphabots4All. All rights reserved. | 501(c)(3) Nonprofit Organization</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+    <script src="../admin.js"></script>
+</body>
+</html>

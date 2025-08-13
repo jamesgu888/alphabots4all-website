@@ -1,0 +1,17 @@
+{
+  "name": "alphabots4all-website",
+  "version": "1.0.0",
+  "description": "Neuromorphic website for Alphabots4All nonprofit",
+  "main": "index.html",
+  "scripts": {
+    "dev": "live-server . --port=8000 --open --host=localhost",
+    "build": "echo 'Static site - no build needed'",
+    "preview": "live-server --port=4173"
+  },
+  "keywords": ["nonprofit", "STEM", "education", "neuromorphic", "website"],
+  "author": "Alphabots4All",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

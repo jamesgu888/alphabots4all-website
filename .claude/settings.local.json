@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.alphabots4all.org)",
+      "Bash(pnpm dev:*)",
+      "Bash(taskkill:*)",
+      "Bash(live-server:*)",
+      "Bash(start \"C:\\Users\\james\\Documents\\VSCode\\Alphabots4All\\index.html\")",
+      "Bash(powershell:*)",
+      "WebFetch(domain:neumorphism.io)",
+      "Bash(mkdir:*)",
+      "Bash(copy:*)",
+      "Bash(git init:*)",
+      "Bash(move:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": []
+  }
+}
