@@ -12,8 +12,30 @@
       "Bash(copy:*)",
       "Bash(git init:*)",
       "Bash(move:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git config:*)",
+      "Bash(gh repo create:*)",
+      "Bash(winget install:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm approve-builds:*)",
+      "Bash(npx prisma:*)",
+      "Bash(node server.js)",
+      "Bash(del \"C:\\Users\\james\\Documents\\VSCode\\Alphabots4All\\pages\\blogs\\event-stem-workshop.html\")",
+      "Bash(rm:*)",
+      "Bash(curl:*)",
+      "Bash(dir:*)",
+      "Bash(pkill:*)",
+      "Bash(pnpm list:*)",
+      "Bash(grep:*)",
+      "Bash(start:*)",
+      "Bash(mv:*)",
+      "Bash(del migration.sql)",
+      "Bash(del nul)"
     ],
-    "deny": []
+    "deny": [],
+    "defaultMode": "acceptEdits"
   }
 }

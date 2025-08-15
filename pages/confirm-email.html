@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Email - Alphabots4All</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            padding-top: 6rem;
+        }
+        
+        .auth-card {
+            background: var(--neu-bg);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 20px 20px 40px #bebebe, -20px -20px 40px #ffffff;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .auth-title {
+            margin-bottom: 1rem;
+            color: var(--neu-text-dark);
+        }
+        
+        .auth-description {
+            margin-bottom: 2rem;
+            color: var(--neu-text-light);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .auth-links {
+            margin-top: 1.5rem;
+        }
+        
+        .auth-links a {
+            color: var(--neu-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .auth-links a:hover {
+            color: var(--neu-secondary);
+        }
+        
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 0.75rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .success-message {
+            background: #efe;
+            color: #3c3;
+            padding: 0.75rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .loading-message {
+            background: #f0f8ff;
+            color: #4a90e2;
+            padding: 0.75rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-primary {
+            background: var(--neu-bg);
+            color: var(--neu-primary);
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 8px 8px 16px #bebebe, -8px -8px 16px #ffffff;
+            font-weight: 600;
+            display: inline-block;
+            margin: 1rem 0;
+        }
+        
+        .btn-primary:hover {
+            box-shadow: inset 8px 8px 16px #bebebe, inset -8px -8px 16px #ffffff;
+            color: var(--neu-secondary);
+        }
+        
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .icon.success {
+            color: #27ae60;
+        }
+        
+        .icon.error {
+            color: #e74c3c;
+        }
+        
+        .icon.loading {
+            color: var(--neu-primary);
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="neural-bg"></canvas>
+    
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <svg class="logo-svg" viewBox="0 0 60 60">
+                    <circle cx="20" cy="20" r="3" class="neuron"></circle>
+                    <circle cx="40" cy="20" r="3" class="neuron"></circle>
+                    <circle cx="30" cy="35" r="3" class="neuron"></circle>
+                    <circle cx="20" cy="45" r="3" class="neuron"></circle>
+                    <circle cx="40" cy="45" r="3" class="neuron"></circle>
+                    <line x1="20" y1="20" x2="30" y2="35" class="synapse"></line>
+                    <line x1="40" y1="20" x2="30" y2="35" class="synapse"></line>
+                    <line x1="30" y1="35" x2="20" y2="45" class="synapse"></line>
+                    <line x1="30" y1="35" x2="40" y2="45" class="synapse"></line>
+                </svg>
+                <span>Alphabots4All</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html" class="neural-link">Home</a></li>
+                <li><a href="about.html" class="neural-link">About</a></li>
+                <li><a href="blogs.html" class="neural-link">Blogs</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="auth-container">
+        <div class="auth-card">
+            <div id="loading-state">
+                <div class="icon loading">⏳</div>
+                <h2 class="auth-title">Confirming Email</h2>
+                <div class="loading-message">Please wait while we confirm your email address...</div>
+            </div>
+            
+            <div id="success-state" style="display: none;">
+                <div class="icon success">✅</div>
+                <h2 class="auth-title">Email Confirmed!</h2>
+                <p class="auth-description">
+                    Your email address has been successfully confirmed. You can now sign in to your account.
+                </p>
+                <a href="signin.html" class="btn-primary">Sign In Now</a>
+            </div>
+            
+            <div id="error-state" style="display: none;">
+                <div class="icon error">❌</div>
+                <h2 class="auth-title">Confirmation Failed</h2>
+                <div class="error-message" id="error-message" style="display: block;"></div>
+                <div class="auth-links">
+                    <p><a href="signup.html">Create a new account</a></p>
+                    <p><a href="signin.html">Try signing in</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+            
+            const loadingState = document.getElementById('loading-state');
+            const successState = document.getElementById('success-state');
+            const errorState = document.getElementById('error-state');
+            const errorMessage = document.getElementById('error-message');
+            
+            if (!token) {
+                loadingState.style.display = 'none';
+                errorState.style.display = 'block';
+                errorMessage.textContent = 'Invalid confirmation link. Please check your email or request a new confirmation.';
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/auth/confirm-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ token })
+                });
+                
+                const data = await response.json();
+                
+                loadingState.style.display = 'none';
+                
+                if (response.ok) {
+                    successState.style.display = 'block';
+                } else {
+                    errorState.style.display = 'block';
+                    errorMessage.textContent = data.error || 'Failed to confirm email';
+                }
+            } catch (error) {
+                loadingState.style.display = 'none';
+                errorState.style.display = 'block';
+                errorMessage.textContent = 'Network error. Please try again later.';
+            }
+        });
+    </script>
+    <script src="../auth.js"></script>
+</body>
+</html>

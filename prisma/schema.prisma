@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String   @id @default(uuid())
+  email          String   @unique
+  password       String
+  name           String?
+  role           String   @default("user")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  confirmToken   String?
+  emailConfirmed Boolean  @default(false)
+  
+  // Relations
+  rsvps          RSVP[]
+  payments       Payment[]
+  interests      Interest[]
+
+  @@map("users")
+}
+
+model Event {
+  id              String   @id @default(uuid())
+  title           String
+  description     String
+  date            DateTime
+  location        String
+  price           Float    @default(0)
+  maxAttendees    Int?
+  image           String?
+  createdBy       String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  // Relations
+  rsvps           RSVP[]
+  payments        Payment[]
+  interests       Interest[]
+  
+  @@map("events")
+}
+
+model RSVP {
+  id              String   @id @default(uuid())
+  userId          String
+  eventId         String
+  createdAt       DateTime @default(now())
+  
+  // Relations
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event           Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, eventId])
+  @@map("rsvps")
+}
+
+model Payment {
+  id              String   @id @default(uuid())
+  userId          String
+  eventId         String
+  amount          Float
+  status          String   @default("pending") // pending, completed, failed
+  stripeSessionId String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  // Relations
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event           Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, eventId])
+  @@map("payments")
+}
+
+model Interest {
+  id              String   @id @default(uuid())
+  userId          String
+  eventId         String
+  createdAt       DateTime @default(now())
+  
+  // Relations
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event           Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, eventId])
+  @@map("interests")
+}

@@ -5,6 +5,210 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Events - Alphabots4All</title>
     <link rel="stylesheet" href="../styles.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            overflow-y: auto;
+        }
+        
+        .events-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px 40px;
+        }
+        
+        .events-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .events-header h1 {
+            font-size: 2.5rem;
+            color: var(--neu-text-dark);
+            margin-bottom: 10px;
+        }
+        
+        .events-header p {
+            color: var(--neu-text-light);
+            font-size: 1.1rem;
+        }
+        
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 20px 0;
+        }
+        
+        .event-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .event-header-img {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+        
+        .event-body {
+            padding: 25px;
+        }
+        
+        .event-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .badge-upcoming {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .badge-free {
+            background: #e8f5e9;
+            color: #388e3c;
+        }
+        
+        .event-date-time {
+            margin-bottom: 15px;
+        }
+        
+        .event-date-time .date {
+            font-size: 0.95rem;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+        
+        .event-date-time .time {
+            font-size: 0.9rem;
+            color: #999;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 22px;
+        }
+        
+        .event-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+        
+        .event-desc {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        
+        .event-info {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+        
+        .info-label {
+            color: #999;
+        }
+        
+        .info-value {
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .event-footer {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-event {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+        
+        .btn-interested {
+            background: white;
+            color: #ff9800;
+            border: 2px solid #ff9800;
+        }
+        
+        .btn-interested:hover {
+            background: #ff9800;
+            color: white;
+        }
+        
+        .btn-rsvp {
+            background: #4a90e2;
+            color: white;
+        }
+        
+        .btn-rsvp:hover {
+            background: #357abd;
+        }
+        
+        .no-events {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .no-events h3 {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .no-events p {
+            color: #999;
+        }
+        
+        @media (max-width: 768px) {
+            .events-grid {
+                grid-template-columns: 1fr;
+                padding: 10px;
+            }
+            
+            .event-footer {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
     <canvas id="neural-bg"></canvas>
@@ -26,10 +230,12 @@
                 <span>Alphabots4All</span>
             </div>
             <ul class="nav-links">
-                <li><a href="index.html" class="neural-link">Home</a></li>
-                <li><a href="about.html" class="neural-link">About</a></li>
+                <li><a href="../index.html" class="neural-link">Home</a></li>
                 <li><a href="events.html" class="neural-link active">Events</a></li>
-                <li><a href="index.html#donate" class="btn-donate">Donate</a></li>
+                <li><a href="blogs.html" class="neural-link">Blogs</a></li>
+                <li><a href="about.html" class="neural-link">About</a></li>
+                <li><a href="admin-dashboard.html" class="neural-link">Admin</a></li>
+                <li><a href="signin.html" class="btn-signin">Sign In</a></li>
             </ul>
             <div class="hamburger">
                 <span></span>
@@ -38,161 +244,28 @@
             </div>
         </div>
     </nav>
-
-    <main class="events-page">
-        <header class="page-hero">
-            <div class="container">
-                <h1 class="page-title">Events & Updates</h1>
-                <p class="page-subtitle">Stay connected with our latest activities, competitions, and community outreach</p>
-            </div>
-        </header>
-
-        <section class="section events-section">
-            <div class="container">
-                <div class="events-grid">
-                    
-                    <a href="event-ftc-championship.html" class="event-link">
-                        <article class="event-post fade-in-element">
-                            <div class="event-image">
-                                <div class="image-placeholder">🏆</div>
-                            </div>
-                            <div class="event-date">
-                                <span class="month">Dec</span>
-                                <span class="day">15</span>
-                                <span class="year">2024</span>
-                            </div>
-                            <div class="event-content">
-                                <h3 class="event-title">FTC Regional Championship Results</h3>
-                                <p class="event-excerpt">Our team competed in the FIRST Tech Challenge Regional Championship, demonstrating our innovative robot design and programming skills. We're proud to announce our advancement to the state level competition.</p>
-                                <div class="event-tags">
-                                    <span class="tag">Competition</span>
-                                    <span class="tag">FTC</span>
-                                    <span class="tag">Achievement</span>
-                                </div>
-                            </div>
-                        </article>
-                    </a>
-
-                    <a href="event-stem-workshop.html" class="event-link">
-                        <article class="event-post fade-in-element">
-                            <div class="event-image">
-                                <div class="image-placeholder">👨‍🏫</div>
-                            </div>
-                            <div class="event-date">
-                                <span class="month">Nov</span>
-                                <span class="day">28</span>
-                                <span class="year">2024</span>
-                            </div>
-                            <div class="event-content">
-                                <h3 class="event-title">Community STEM Workshop Success</h3>
-                                <p class="event-excerpt">We hosted a hands-on robotics workshop for local middle school students, introducing them to programming and mechanical design. Over 50 students participated in building their first robots!</p>
-                                <div class="event-tags">
-                                    <span class="tag">Workshop</span>
-                                    <span class="tag">Community</span>
-                                    <span class="tag">Education</span>
-                                </div>
-                            </div>
-                        </article>
-                    </a>
-
-                    <a href="event-school-partnership.html" class="event-link">
-                        <article class="event-post fade-in-element">
-                            <div class="event-image">
-                                <div class="image-placeholder">🤝</div>
-                            </div>
-                            <div class="event-date">
-                                <span class="month">Nov</span>
-                                <span class="day">10</span>
-                                <span class="year">2024</span>
-                            </div>
-                            <div class="event-content">
-                                <h3 class="event-title">New Partnership with Local Schools</h3>
-                                <p class="event-excerpt">We're excited to announce partnerships with three additional schools in the Bay Area to expand our mentorship program and reach more students interested in STEM fields.</p>
-                                <div class="event-tags">
-                                    <span class="tag">Partnership</span>
-                                    <span class="tag">Expansion</span>
-                                    <span class="tag">Mentorship</span>
-                                </div>
-                            </div>
-                        </article>
-                    </a>
-
-                    <a href="#" class="event-link">
-                        <article class="event-post fade-in-element">
-                            <div class="event-image">
-                                <div class="image-placeholder">☀️</div>
-                            </div>
-                            <div class="event-date">
-                                <span class="month">Oct</span>
-                                <span class="day">22</span>
-                                <span class="year">2024</span>
-                            </div>
-                            <div class="event-content">
-                                <h3 class="event-title">Robotics Summer Camp Recap</h3>
-                                <p class="event-excerpt">Our summer robotics camp concluded with incredible projects from participants. Students built autonomous robots, learned advanced programming concepts, and developed problem-solving skills.</p>
-                                <div class="event-tags">
-                                    <span class="tag">Summer Camp</span>
-                                    <span class="tag">Projects</span>
-                                    <span class="tag">Learning</span>
-                                </div>
-                            </div>
-                        </article>
-                    </a>
-
-                    <a href="#" class="event-link">
-                        <article class="event-post fade-in-element">
-                            <div class="event-image">
-                                <div class="image-placeholder">🧠</div>
-                            </div>
-                            <div class="event-date">
-                                <span class="month">Oct</span>
-                                <span class="day">05</span>
-                                <span class="year">2024</span>
-                            </div>
-                            <div class="event-content">
-                                <h3 class="event-title">Team Wins Innovation Award</h3>
-                                <p class="event-excerpt">At the Bay Area STEM Fair, our team was recognized with the Innovation Award for our autonomous sorting robot that uses computer vision and machine learning algorithms.</p>
-                                <div class="event-tags">
-                                    <span class="tag">Award</span>
-                                    <span class="tag">Innovation</span>
-                                    <span class="tag">AI</span>
-                                </div>
-                            </div>
-                        </article>
-                    </a>
-
-                    <a href="#" class="event-link">
-                        <article class="event-post fade-in-element">
-                            <div class="event-image">
-                                <div class="image-placeholder">🎉</div>
-                            </div>
-                            <div class="event-date">
-                                <span class="month">Sep</span>
-                                <span class="day">18</span>
-                                <span class="year">2024</span>
-                            </div>
-                            <div class="event-content">
-                                <h3 class="event-title">Volunteer Recognition Event</h3>
-                                <p class="event-excerpt">We celebrated our amazing volunteers and mentors who make our programs possible. Their dedication to inspiring young minds in STEM continues to drive our mission forward.</p>
-                                <div class="event-tags">
-                                    <span class="tag">Recognition</span>
-                                    <span class="tag">Volunteers</span>
-                                    <span class="tag">Community</span>
-                                </div>
-                            </div>
-                        </article>
-                    </a>
-
-                </div>
-            </div>
-        </section>
-    </main>
-
+    
+    <div class="events-container">
+        <div class="events-header">
+            <h1>Upcoming Events</h1>
+            <p>Join us for workshops, competitions, and community gatherings</p>
+        </div>
+        
+        <div class="events-grid" id="events-grid">
+            <!-- Events will be loaded here dynamically -->
+        </div>
+        
+        <div class="no-events" id="no-events" style="display: none;">
+            <h3>No Events Available</h3>
+            <p>Check back soon for upcoming workshops and competitions!</p>
+        </div>
+    </div>
+    
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
-                <h4>Alphabots4All</h4>
-                <p>Connecting minds to STEM education through innovative programs and community support.</p>
+                <h4>About Alphabots4All</h4>
+                <p>Empowering the next generation through STEM education and robotics.</p>
                 <div class="social-links">
                     <a href="#" aria-label="Facebook">FB</a>
                     <a href="#" aria-label="Twitter">TW</a>
@@ -211,5 +284,129 @@
     </footer>
 
     <script src="../script.js"></script>
+    <script>
+        // Sample events data (replace with actual API call)
+        const sampleEvents = [
+            {
+                id: 1,
+                title: "STEM Robotics Workshop - Build Your First Robot!",
+                description: "Join us for an exciting hands-on robotics workshop where you'll learn the fundamentals of programming and building robots. Perfect for beginners and intermediate learners!",
+                date: "2025-01-25",
+                time: "2:00 PM",
+                location: "Alphabots4All STEM Lab, 123 Innovation Drive, Fremont, CA",
+                price: 25,
+                capacity: 20,
+                attendees: 0,
+                status: "upcoming",
+                image: "🤖"
+            },
+            {
+                id: 2,
+                title: "FTC Championship Viewing Party",
+                description: "Come watch the FIRST Tech Challenge World Championship with our team! We'll be streaming the live competition, providing snacks, and discussing strategies.",
+                date: "2025-02-15",
+                time: "10:00 AM",
+                location: "Community Center, 456 Tech Boulevard, Fremont, CA",
+                price: 0,
+                capacity: 50,
+                attendees: 0,
+                status: "free",
+                image: "🏆"
+            }
+        ];
+
+        // Load events on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadEvents();
+        });
+
+        function loadEvents() {
+            const eventsGrid = document.getElementById('events-grid');
+            const noEvents = document.getElementById('no-events');
+            
+            // For now, use sample data
+            const events = sampleEvents;
+            
+            if (events.length === 0) {
+                eventsGrid.style.display = 'none';
+                noEvents.style.display = 'block';
+                return;
+            }
+            
+            eventsGrid.innerHTML = '';
+            noEvents.style.display = 'none';
+            
+            events.forEach(event => {
+                const eventCard = createEventCard(event);
+                eventsGrid.appendChild(eventCard);
+            });
+        }
+
+        function createEventCard(event) {
+            const card = document.createElement('div');
+            card.className = 'event-card';
+            
+            const eventDate = new Date(event.date);
+            const formattedDate = eventDate.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            card.innerHTML = `
+                <div class="event-header-img">
+                    ${event.image}
+                </div>
+                <div class="event-body">
+                    <span class="event-badge ${event.price === 0 ? 'badge-free' : 'badge-upcoming'}">
+                        ${event.price === 0 ? 'Free Event' : 'Upcoming'}
+                    </span>
+                    
+                    <div class="event-date-time">
+                        <div class="date">📅 ${formattedDate}</div>
+                        <div class="time">⏰ ${event.time}</div>
+                    </div>
+                    
+                    <h3 class="event-name">${event.title}</h3>
+                    <p class="event-desc">${event.description}</p>
+                    
+                    <div class="event-info">
+                        <div class="info-row">
+                            <span class="info-label">Location</span>
+                            <span class="info-value">${event.location.split(',')[0]}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Price</span>
+                            <span class="info-value">${event.price === 0 ? 'Free' : '$' + event.price}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Capacity</span>
+                            <span class="info-value">${event.attendees}/${event.capacity}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="event-footer">
+                        <button class="btn-event btn-interested" onclick="toggleInterest(${event.id})">
+                            ⭐ Interested?
+                        </button>
+                        <button class="btn-event btn-rsvp" onclick="toggleRSVP(${event.id})">
+                            RSVP
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function toggleInterest(eventId) {
+            alert('Please sign in to mark interest in this event');
+        }
+
+        function toggleRSVP(eventId) {
+            alert('Please sign in to RSVP for this event');
+        }
+    </script>
 </body>
 </html>

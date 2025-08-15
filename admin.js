@@ -89,7 +89,7 @@ function getYear(dateString) {
     return date.getFullYear();
 }
 
-// Generate HTML template
+// Generate HTML template using FTC championship template structure
 function generateBlogPostHTML(data) {
     const filename = generateFilename(data.title);
     const imageContent = data.emoji || '📷';
@@ -100,7 +100,7 @@ function generateBlogPostHTML(data) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${data.title} - Alphabots4All</title>
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../../styles.css">
 </head>
 <body>
     <canvas id="neural-bg"></canvas>
@@ -122,10 +122,10 @@ function generateBlogPostHTML(data) {
                 <span>Alphabots4All</span>
             </div>
             <ul class="nav-links">
-                <li><a href="index.html" class="neural-link">Home</a></li>
-                <li><a href="about.html" class="neural-link">About</a></li>
-                <li><a href="events.html" class="neural-link active">Events</a></li>
-                <li><a href="index.html#donate" class="btn-donate">Donate</a></li>
+                <li><a href="../../index.html" class="neural-link">Home</a></li>
+                <li><a href="../about.html" class="neural-link">About</a></li>
+                <li><a href="../events.html" class="neural-link active">Events</a></li>
+                <li><a href="../signin.html" class="btn-signin">Sign In</a></li>
             </ul>
             <div class="hamburger">
                 <span></span>
@@ -139,26 +139,26 @@ function generateBlogPostHTML(data) {
         <div class="container">
             <div class="blog-container">
                 <div class="blog-nav">
-                    <a href="events.html" class="back-link">← Back to Events</a>
+                    <a href="../events.html" class="back-link">← Back to Events</a>
                 </div>
                 
                 <article class="blog-post">
-                    <header class="blog-header">
-                        <div class="blog-image">
-                            <div class="image-placeholder">${imageContent}</div>
-                        </div>
-                        <div class="blog-meta">
-                            <div class="blog-date">${formatDate(data.date)}</div>
-                            <h1 class="blog-title">${data.title}</h1>
-                            <div class="blog-tags">
-                                ${data.tags.map(tag => `<span class="tag">${tag}</span>`).join('\n                                ')}
-                            </div>
-                        </div>
-                    </header>
-                    
-                    <div class="blog-content">
-                        ${data.content}
+                <header class="blog-header">
+                    <div class="blog-image">
+                        <div class="image-placeholder">${imageContent}</div>
                     </div>
+                    <div class="blog-meta">
+                        <div class="blog-date">${formatDate(data.date)}</div>
+                        <h1 class="blog-title">${data.title}</h1>
+                        <div class="blog-tags">
+                            ${data.tags.map(tag => `<span class="tag">${tag}</span>`).join('\n                            ')}
+                        </div>
+                    </div>
+                </header>
+                
+                <div class="blog-content">
+                    ${data.content}
+                </div>
                 </article>
             </div>
         </div>
@@ -186,7 +186,7 @@ function generateBlogPostHTML(data) {
         </div>
     </footer>
 
-    <script src="../script.js"></script>
+    <script src="../../script.js"></script>
 </body>
 </html>`;
 }
@@ -196,7 +196,7 @@ function generateEventsHTML(data) {
     const filename = generateFilename(data.title);
     const imageContent = data.emoji || '📷';
     
-    return `                    <a href="${filename}" class="event-link">
+    return `                    <a href="pages/blogs/${filename}" class="event-link">
                         <article class="event-post fade-in-element">
                             <div class="event-image">
                                 <div class="image-placeholder">${imageContent}</div>
@@ -218,7 +218,7 @@ function generateEventsHTML(data) {
 }
 
 // Form submission
-document.getElementById('blogForm').addEventListener('submit', function(e) {
+document.getElementById('blogForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
     const formData = {
@@ -230,29 +230,67 @@ document.getElementById('blogForm').addEventListener('submit', function(e) {
         tags: tags
     };
     
-    if (!formData.title || !formData.date || !formData.excerpt || !formData.content) {
+    if (!formData.title || !formData.excerpt || !formData.content) {
         alert('Please fill in all required fields!');
         return;
     }
     
-    if (tags.length === 0) {
-        alert('Please add at least one tag!');
-        return;
+    // Show loading state
+    const submitBtn = document.querySelector('.btn-admin[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Creating Blog Post...';
+    submitBtn.disabled = true;
+    
+    try {
+        // Get auth token
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Please sign in as admin to create blog posts.');
+            return;
+        }
+        
+        // Send to API
+        const response = await fetch('/api/admin/create-blog', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                title: formData.title,
+                content: formData.content,
+                excerpt: formData.excerpt,
+                category: 'Blog',
+                author: 'Alphabots4All Team',
+                tags: formData.tags
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            // Show success message
+            document.getElementById('outputSection').innerHTML = `
+                <h3 style="color: green;">✅ Blog Post Created Successfully!</h3>
+                <p><strong>Title:</strong> ${formData.title}</p>
+                <p><strong>Filename:</strong> ${result.filename}</p>
+                <p><strong>Location:</strong> /pages/blogs/${result.filename}</p>
+                <p><strong>View Post:</strong> <a href="${result.path}" target="_blank">Open Blog Post</a></p>
+                <button onclick="clearForm()" class="btn-admin" style="margin-top: 1rem;">Create Another Post</button>
+            `;
+            document.getElementById('outputSection').style.display = 'block';
+            document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
+        } else {
+            alert(`Error: ${result.error}`);
+        }
+    } catch (error) {
+        console.error('Blog creation error:', error);
+        alert('Failed to create blog post. Please try again.');
+    } finally {
+        // Restore button
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
     }
-    
-    // Generate files
-    const filename = generateFilename(formData.title);
-    const blogPostHTML = generateBlogPostHTML(formData);
-    const eventsHTML = generateEventsHTML(formData);
-    
-    // Display output
-    document.getElementById('htmlFilename').textContent = filename;
-    document.getElementById('htmlOutput').textContent = blogPostHTML;
-    document.getElementById('eventsOutput').textContent = eventsHTML;
-    document.getElementById('outputSection').style.display = 'block';
-    
-    // Scroll to output
-    document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
 });
 
 // Copy to clipboard functionality

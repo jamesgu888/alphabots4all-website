@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogs - Alphabots4All</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <canvas id="neural-bg"></canvas>
+    
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="Alphabots4All Logo" class="logo-img">
+                <span>Alphabots4All</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html" class="neural-link">Home</a></li>
+                <li><a href="events.html" class="neural-link">Events</a></li>
+                <li><a href="blogs.html" class="neural-link active">Blogs</a></li>
+                <li><a href="about.html" class="neural-link">About</a></li>
+                <li><a href="admin-dashboard.html" class="neural-link">Admin</a></li>
+                <li><a href="signin.html" class="btn-signin">Sign In</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="events-page">
+        <header class="page-hero">
+            <div class="container">
+                <h1 class="page-title">Blog Posts & Updates</h1>
+                <p class="page-subtitle">Stay connected with our latest blog posts, activities, and community updates</p>
+            </div>
+        </header>
+
+        <section class="section events-section">
+            <div class="container">
+                <div class="events-grid" id="events-grid">
+                    <!-- Blog posts will be loaded dynamically -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Alphabots4All</h4>
+                <p>Connecting minds to STEM education through innovative programs and community support.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook">FB</a>
+                    <a href="#" aria-label="Twitter">TW</a>
+                    <a href="#" aria-label="LinkedIn">LI</a>
+                    <a href="#" aria-label="Instagram">IG</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>Email: info@alphabots4all.org</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Alphabots4All. All rights reserved. | 501(c)(3) Nonprofit Organization</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+    <script>
+        // Load blog posts dynamically
+        async function loadBlogPosts() {
+            try {
+                const response = await fetch('/api/blogs');
+                const blogs = await response.json();
+                
+                const eventsGrid = document.getElementById('events-grid');
+                
+                if (blogs.length === 0) {
+                    eventsGrid.innerHTML = '<p style="text-align: center; color: #666;">No blog posts available yet.</p>';
+                    return;
+                }
+                
+                blogs.forEach(blog => {
+                    const date = new Date(blog.date);
+                    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                    
+                    const eventLink = document.createElement('a');
+                    eventLink.href = `blogs/${blog.filename}`;
+                    eventLink.className = 'event-link';
+                    
+                    eventLink.innerHTML = `
+                        <article class="event-post fade-in-element">
+                            <div class="event-image">
+                                <div class="image-placeholder">${blog.image}</div>
+                            </div>
+                            <div class="event-date">
+                                <span class="month">${monthNames[date.getMonth()]}</span>
+                                <span class="day">${date.getDate()}</span>
+                                <span class="year">${date.getFullYear()}</span>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">${blog.title}</h3>
+                                <p class="event-excerpt">${blog.excerpt || 'Click to read more...'}</p>
+                                <div class="event-tags">
+                                    ${blog.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                                </div>
+                            </div>
+                        </article>
+                    `;
+                    
+                    eventsGrid.appendChild(eventLink);
+                });
+            } catch (error) {
+                console.error('Error loading blog posts:', error);
+                document.getElementById('events-grid').innerHTML = '<p style="text-align: center; color: #666;">Error loading blog posts.</p>';
+            }
+        }
+        
+        // Load blog posts when page loads
+        document.addEventListener('DOMContentLoaded', loadBlogPosts);
+    </script>
+    <script src="../auth.js"></script>
+</body>
+</html>

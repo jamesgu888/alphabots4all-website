@@ -4,14 +4,37 @@
   "description": "Neuromorphic website for Alphabots4All nonprofit",
   "main": "index.html",
   "scripts": {
-    "dev": "live-server . --port=8000 --open --host=localhost",
+    "dev": "node server.js",
+    "server": "node server.js",
+    "db:migrate": "prisma migrate dev",
+    "db:studio": "prisma studio",
+    "db:generate": "prisma generate",
     "build": "echo 'Static site - no build needed'",
     "preview": "live-server --port=4173"
   },
-  "keywords": ["nonprofit", "STEM", "education", "neuromorphic", "website"],
+  "keywords": [
+    "nonprofit",
+    "STEM",
+    "education",
+    "neuromorphic",
+    "website"
+  ],
   "author": "Alphabots4All",
   "license": "MIT",
   "devDependencies": {
-    "live-server": "^1.2.2"
+    "@types/bcryptjs": "^3.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "live-server": "^1.2.2",
+    "prisma": "^6.14.0"
+  },
+  "dependencies": {
+    "@getbrevo/brevo": "^3.0.1",
+    "@prisma/client": "^6.14.0",
+    "@supabase/supabase-js": "^2.55.0",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2"
   }
 }

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Alphabots4All</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .admin-container {
+            min-height: 100vh;
+            padding: 6rem 2rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .admin-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .admin-title {
+            color: var(--neu-text-dark);
+            margin-bottom: 1rem;
+        }
+        
+        .admin-description {
+            color: var(--neu-text-light);
+            font-size: 1.1rem;
+        }
+        
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .admin-card {
+            background: var(--neu-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 15px 15px 30px #bebebe, -15px -15px 30px #ffffff;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 20px 20px 40px #bebebe, -20px -20px 40px #ffffff;
+        }
+        
+        .admin-card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--neu-primary);
+        }
+        
+        .admin-card-title {
+            color: var(--neu-text-dark);
+            margin-bottom: 1rem;
+        }
+        
+        .admin-card-description {
+            color: var(--neu-text-light);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .btn-admin {
+            background: var(--neu-bg);
+            color: var(--neu-primary);
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 8px 8px 16px #bebebe, -8px -8px 16px #ffffff;
+            font-weight: 600;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        .btn-admin:hover {
+            box-shadow: inset 8px 8px 16px #bebebe, inset -8px -8px 16px #ffffff;
+            color: var(--neu-secondary);
+        }
+        
+        .recent-activity {
+            background: var(--neu-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 15px 15px 30px #bebebe, -15px -15px 30px #ffffff;
+        }
+        
+        .activity-title {
+            color: var(--neu-text-dark);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .activity-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .activity-item {
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: var(--neu-bg);
+            border-radius: 10px;
+            box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
+            font-size: 0.9rem;
+            color: var(--neu-text-light);
+        }
+        
+        .access-denied {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        
+        .access-denied-icon {
+            font-size: 4rem;
+            color: #e74c3c;
+            margin-bottom: 1rem;
+        }
+        
+        .access-denied-title {
+            color: var(--neu-text-dark);
+            margin-bottom: 1rem;
+        }
+        
+        .access-denied-description {
+            color: var(--neu-text-light);
+            margin-bottom: 2rem;
+        }
+        
+        .blog-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: var(--neu-bg);
+            border-radius: 10px;
+            box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
+        }
+        
+        .blog-info {
+            flex: 1;
+        }
+        
+        .blog-title {
+            font-weight: 600;
+            color: var(--neu-text-dark);
+            margin-bottom: 0.25rem;
+        }
+        
+        .blog-meta {
+            font-size: 0.8rem;
+            color: var(--neu-text-light);
+        }
+        
+        .blog-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-delete {
+            background: #e74c3c;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .btn-delete:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        .btn-view {
+            background: var(--neu-primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .btn-view:hover {
+            background: var(--neu-secondary);
+            transform: translateY(-2px);
+        }
+        
+        .confirmation-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: var(--neu-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 15px 15px 30px #bebebe, -15px -15px 30px #ffffff;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .modal-title {
+            color: var(--neu-text-dark);
+            margin-bottom: 1rem;
+        }
+        
+        .modal-text {
+            color: var(--neu-text-light);
+            margin-bottom: 2rem;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        .btn-confirm {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn-cancel {
+            background: var(--neu-bg);
+            color: var(--neu-text-dark);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="neural-bg"></canvas>
+    
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <svg class="logo-svg" viewBox="0 0 60 60">
+                    <circle cx="20" cy="20" r="3" class="neuron"></circle>
+                    <circle cx="40" cy="20" r="3" class="neuron"></circle>
+                    <circle cx="30" cy="35" r="3" class="neuron"></circle>
+                    <circle cx="20" cy="45" r="3" class="neuron"></circle>
+                    <circle cx="40" cy="45" r="3" class="neuron"></circle>
+                    <line x1="20" y1="20" x2="30" y2="35" class="synapse"></line>
+                    <line x1="40" y1="20" x2="30" y2="35" class="synapse"></line>
+                    <line x1="30" y1="35" x2="20" y2="45" class="synapse"></line>
+                    <line x1="30" y1="35" x2="40" y2="45" class="synapse"></line>
+                </svg>
+                <span>Alphabots4All</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html" class="neural-link">Home</a></li>
+                <li><a href="events.html" class="neural-link">Events</a></li>
+                <li><a href="blogs.html" class="neural-link">Blogs</a></li>
+                <li><a href="about.html" class="neural-link">About</a></li>
+                <li><a href="admin-dashboard.html" class="neural-link active">Admin</a></li>
+                <li><a href="signin.html" class="btn-signin">Sign In</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="admin-container">
+        <div id="admin-content" style="display: none;">
+            <div class="admin-header">
+                <h1 class="admin-title">Admin Dashboard</h1>
+                <p class="admin-description">Manage your Alphabots4All content and settings</p>
+            </div>
+            
+            <div class="admin-grid">
+                <div class="admin-card">
+                    <div class="admin-card-icon">📝</div>
+                    <h3 class="admin-card-title">Create Blog Post</h3>
+                    <p class="admin-card-description">Write and publish new blog posts for the community</p>
+                    <a href="create-blog.html" class="btn-admin">Create New Post</a>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="admin-card-icon">📊</div>
+                    <h3 class="admin-card-title">Manage Blog Posts</h3>
+                    <p class="admin-card-description">View, edit, or delete existing blog posts. Click to see delete buttons for each post.</p>
+                    <button class="btn-admin" onclick="showBlogManagement()">Manage Blogs</button>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="admin-card-icon">👥</div>
+                    <h3 class="admin-card-title">User Management</h3>
+                    <p class="admin-card-description">View and manage registered users</p>
+                    <button class="btn-admin" onclick="alert('User management coming soon!')">View Users</button>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="admin-card-icon">⚙️</div>
+                    <h3 class="admin-card-title">Site Settings</h3>
+                    <p class="admin-card-description">Configure website settings and preferences</p>
+                    <button class="btn-admin" onclick="alert('Settings coming soon!')">Site Settings</button>
+                </div>
+            </div>
+            
+            <div id="blog-management" class="recent-activity" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3 class="activity-title">Blog Management</h3>
+                    <button class="btn-admin" onclick="hideBlogManagement()">← Back to Dashboard</button>
+                </div>
+                <div id="blog-list">
+                    <p style="text-align: center; color: var(--neu-text-light);">Loading blog posts...</p>
+                </div>
+            </div>
+            
+            <div id="main-dashboard" class="recent-activity">
+                <h3 class="activity-title">Recent Activity</h3>
+                <ul class="activity-list">
+                    <li class="activity-item">🔐 Admin dashboard accessed - Just now</li>
+                    <li class="activity-item">📧 Email confirmation system updated - 1 hour ago</li>
+                    <li class="activity-item">🎨 Neumorphic design applied - 2 hours ago</li>
+                    <li class="activity-item">🗄️ Database connected successfully - 3 hours ago</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="access-denied" style="display: none;">
+            <div class="access-denied">
+                <div class="access-denied-icon">🚫</div>
+                <h2 class="access-denied-title">Access Denied</h2>
+                <p class="access-denied-description">
+                    You don't have permission to access the admin dashboard.<br>
+                    Please sign in with an administrator account.
+                </p>
+                <a href="signin.html" class="btn-admin">Sign In</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="confirmation-modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Confirm Deletion</h3>
+            <p class="modal-text">Are you sure you want to delete this blog post? This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button class="btn-admin btn-cancel" onclick="closeConfirmationModal()">Cancel</button>
+                <button class="btn-admin btn-confirm" onclick="confirmDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../script.js"></script>
+    <script src="../auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function checkAuth() {
+                const token = localStorage.getItem('token');
+                const user = localStorage.getItem('user');
+                
+                if (token && user) {
+                    return JSON.parse(user);
+                }
+                return null;
+            }
+            
+            function isAdmin(user) {
+                if (!user) return false;
+                
+                const adminEmails = ['info@alphabots4all.org'];
+                const adminUsernames = ['alphabots4all'];
+                
+                return adminEmails.includes(user.email) || 
+                       adminUsernames.includes(user.name) || 
+                       user.role === 'admin';
+            }
+            
+            const user = checkAuth();
+            const adminContent = document.getElementById('admin-content');
+            const accessDenied = document.getElementById('access-denied');
+            
+            if (user && isAdmin(user)) {
+                adminContent.style.display = 'block';
+                accessDenied.style.display = 'none';
+            } else {
+                adminContent.style.display = 'none';
+                accessDenied.style.display = 'block';
+            }
+        });
+        
+        let blogToDelete = null;
+        
+        async function showBlogManagement() {
+            document.getElementById('main-dashboard').style.display = 'none';
+            document.getElementById('blog-management').style.display = 'block';
+            await loadBlogs();
+        }
+        
+        function hideBlogManagement() {
+            document.getElementById('blog-management').style.display = 'none';
+            document.getElementById('main-dashboard').style.display = 'block';
+        }
+        
+        async function loadBlogs() {
+            try {
+                const response = await fetch('/api/blogs');
+                const blogs = await response.json();
+                
+                const blogList = document.getElementById('blog-list');
+                
+                if (blogs.length === 0) {
+                    blogList.innerHTML = '<p style="text-align: center; color: var(--neu-text-light);">No blog posts found.</p>';
+                    return;
+                }
+                
+                blogList.innerHTML = blogs.map(blog => `
+                    <div class="blog-item">
+                        <div class="blog-info">
+                            <div class="blog-title">${blog.title}</div>
+                            <div class="blog-meta">
+                                📅 ${blog.date} | 📄 ${blog.filename}
+                                ${blog.tags.length > 0 ? '| 🏷️ ' + blog.tags.join(', ') : ''}
+                            </div>
+                        </div>
+                        <div class="blog-actions">
+                            <button class="btn-view" onclick="window.open('/pages/blogs/${blog.filename}', '_blank')">
+                                👁️ View
+                            </button>
+                            <button class="btn-delete" onclick="deleteBlog('${blog.filename}', '${blog.title}')">
+                                🗑️ Delete
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading blogs:', error);
+                document.getElementById('blog-list').innerHTML = 
+                    '<p style="text-align: center; color: #e74c3c;">Error loading blog posts.</p>';
+            }
+        }
+        
+        function deleteBlog(filename, title) {
+            blogToDelete = { filename, title };
+            document.getElementById('confirmationModal').style.display = 'flex';
+        }
+        
+        function closeConfirmationModal() {
+            document.getElementById('confirmationModal').style.display = 'none';
+            blogToDelete = null;
+        }
+        
+        async function confirmDelete() {
+            if (!blogToDelete) return;
+            
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`/api/admin/delete-blog/${blogToDelete.filename}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    closeConfirmationModal();
+                    await loadBlogs(); // Reload the blog list
+                    alert(`Blog post "${blogToDelete.title}" has been deleted successfully.`);
+                } else {
+                    const error = await response.json();
+                    alert(`Error deleting blog post: ${error.error || 'Unknown error'}`);
+                }
+            } catch (error) {
+                console.error('Error deleting blog:', error);
+                alert('Failed to delete blog post. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html>
