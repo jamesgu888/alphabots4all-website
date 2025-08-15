@@ -46,6 +46,7 @@ body {
                 box-shadow 0.3s ease,
                 backdrop-filter 0.3s ease;
     backdrop-filter: blur(10px);
+    min-height: 76px;
 }
 
 .navbar.navbar-hidden {
@@ -131,7 +132,15 @@ body {
     list-style: none;
     gap: 2rem;
     align-items: center;
+    min-height: 40px;
 }
+
+.nav-links li {
+    opacity: 1;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+/* Prevent layout shift during auth check */
 
 .neural-link {
     color: var(--text-secondary);

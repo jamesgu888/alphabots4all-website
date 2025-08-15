@@ -17,7 +17,8 @@
         .events-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 80px 20px 40px;
+            padding: 4rem 2rem 2rem;
+            padding-top: 8rem;
         }
         
         .events-header {
@@ -26,14 +27,22 @@
         }
         
         .events-header h1 {
-            font-size: 2.5rem;
-            color: var(--neu-text-dark);
-            margin-bottom: 10px;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+            background: linear-gradient(135deg, var(--neu-primary) 0%, var(--neu-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .events-header p {
+            font-size: 1.3rem;
             color: var(--neu-text-light);
-            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
         
         .events-grid {
@@ -44,26 +53,26 @@
         }
         
         .event-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: var(--neu-bg);
+            border-radius: 20px;
+            box-shadow: 12px 12px 20px var(--neu-shadow-dark), -12px -12px 20px var(--neu-shadow-light);
             overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
         .event-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            box-shadow: 16px 16px 24px var(--neu-shadow-dark), -16px -16px 24px var(--neu-shadow-light);
         }
         
         .event-header-img {
             width: 100%;
             height: 200px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #a8d5f2 0%, #7bc3e8 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 4rem;
+            color: white;
         }
         
         .event-body {
@@ -80,13 +89,15 @@
         }
         
         .badge-upcoming {
-            background: #e3f2fd;
-            color: #1976d2;
+            background: var(--neu-bg);
+            color: var(--neu-primary);
+            box-shadow: inset 4px 4px 8px var(--neu-inset-dark), inset -4px -4px 8px var(--neu-inset-light);
         }
         
         .badge-free {
-            background: #e8f5e9;
-            color: #388e3c;
+            background: var(--neu-bg);
+            color: #27ae60;
+            box-shadow: inset 4px 4px 8px var(--neu-inset-dark), inset -4px -4px 8px var(--neu-inset-light);
         }
         
         .event-date-time {
@@ -127,9 +138,11 @@
         }
         
         .event-info {
-            border-top: 1px solid #eee;
-            padding-top: 20px;
+            background: var(--neu-bg);
+            border-radius: 15px;
+            padding: 15px;
             margin-bottom: 20px;
+            box-shadow: inset 6px 6px 12px var(--neu-inset-dark), inset -6px -6px 12px var(--neu-inset-light);
         }
         
         .info-row {
@@ -165,23 +178,26 @@
         }
         
         .btn-interested {
-            background: white;
-            color: #ff9800;
-            border: 2px solid #ff9800;
+            background: var(--neu-bg);
+            color: var(--neu-primary);
+            border: none;
+            box-shadow: 6px 6px 12px var(--neu-shadow-dark), -6px -6px 12px var(--neu-shadow-light);
         }
         
         .btn-interested:hover {
-            background: #ff9800;
-            color: white;
+            box-shadow: inset 6px 6px 12px var(--neu-inset-dark), inset -6px -6px 12px var(--neu-inset-light);
         }
         
         .btn-rsvp {
-            background: #4a90e2;
+            background: var(--neu-primary);
             color: white;
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.3);
         }
         
         .btn-rsvp:hover {
-            background: #357abd;
+            background: var(--neu-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4);
         }
         
         .no-events {
@@ -198,6 +214,196 @@
             color: #999;
         }
         
+        /* Modal Styles */
+        .event-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(2px);
+        }
+        
+        .modal-content {
+            position: relative;
+            background: var(--neu-bg);
+            margin: 2% auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 20px 20px 40px var(--neu-shadow-dark), -20px -20px 40px var(--neu-shadow-light);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--neu-text-light);
+            cursor: pointer;
+            z-index: 1001;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #a8d5f2 0%, #7bc3e8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            color: white;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+        }
+        
+        .modal-body {
+            padding: 2rem;
+        }
+        
+        .modal-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--neu-text-dark);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+        
+        .modal-date-time {
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-date-time .date {
+            font-size: 1.1rem;
+            color: var(--neu-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .modal-date-time .time {
+            font-size: 1rem;
+            color: var(--neu-text-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 22px;
+        }
+        
+        .modal-description {
+            color: var(--neu-text-dark);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .modal-details {
+            background: var(--neu-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: inset 6px 6px 12px var(--neu-inset-dark), inset -6px -6px 12px var(--neu-inset-light);
+        }
+        
+        .modal-details h3 {
+            color: var(--neu-primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        
+        .detail-label {
+            color: var(--neu-text-light);
+            font-weight: 500;
+        }
+        
+        .detail-value {
+            color: var(--neu-text-dark);
+            font-weight: 600;
+        }
+        
+        .modal-footer {
+            padding: 0 2rem 0;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .btn-modal {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            white-space: nowrap;
+            width: 220px;
+        }
+        
+        .btn-modal-attend {
+            background: var(--neu-primary);
+            color: white;
+            box-shadow: 0 8px 20px rgba(74, 144, 226, 0.3);
+        }
+        
+        .btn-modal-attend:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(74, 144, 226, 0.4);
+        }
+        
+        .btn-modal-interested {
+            background: var(--neu-bg);
+            color: var(--neu-primary);
+            box-shadow: 6px 6px 12px var(--neu-shadow-dark), -6px -6px 12px var(--neu-shadow-light);
+        }
+        
+        .btn-modal-interested:hover {
+            box-shadow: inset 6px 6px 12px var(--neu-inset-dark), inset -6px -6px 12px var(--neu-inset-light);
+        }
+        
         @media (max-width: 768px) {
             .events-grid {
                 grid-template-columns: 1fr;
@@ -206,6 +412,24 @@
             
             .event-footer {
                 flex-direction: column;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+            }
+            
+            .modal-header {
+                height: 200px;
+                font-size: 4rem;
+            }
+            
+            .modal-footer {
+                flex-direction: column;
+            }
+            
+            .btn-modal {
+                max-width: none;
             }
         }
     </style>
@@ -216,17 +440,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <svg class="logo-svg" viewBox="0 0 60 60">
-                    <circle cx="20" cy="20" r="3" class="neuron"></circle>
-                    <circle cx="40" cy="20" r="3" class="neuron"></circle>
-                    <circle cx="30" cy="35" r="3" class="neuron"></circle>
-                    <circle cx="20" cy="45" r="3" class="neuron"></circle>
-                    <circle cx="40" cy="45" r="3" class="neuron"></circle>
-                    <line x1="20" y1="20" x2="30" y2="35" class="synapse"></line>
-                    <line x1="40" y1="20" x2="30" y2="35" class="synapse"></line>
-                    <line x1="30" y1="35" x2="20" y2="45" class="synapse"></line>
-                    <line x1="30" y1="35" x2="40" y2="45" class="synapse"></line>
-                </svg>
+                <img src="../images/logo.png" alt="Alphabots4All Logo" class="logo-img">
                 <span>Alphabots4All</span>
             </div>
             <ul class="nav-links">
@@ -234,7 +448,7 @@
                 <li><a href="events.html" class="neural-link active">Events</a></li>
                 <li><a href="blogs.html" class="neural-link">Blogs</a></li>
                 <li><a href="about.html" class="neural-link">About</a></li>
-                <li><a href="admin-dashboard.html" class="neural-link">Admin</a></li>
+                <li style="display: none;"><a href="admin-dashboard.html" class="neural-link">Admin</a></li>
                 <li><a href="signin.html" class="btn-signin">Sign In</a></li>
             </ul>
             <div class="hamburger">
@@ -261,6 +475,61 @@
         </div>
     </div>
     
+    <!-- Event Detail Modal -->
+    <div id="eventModal" class="event-modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-header" id="modalImage">
+                🤖
+            </div>
+            <div class="modal-body">
+                <h2 class="modal-title" id="modalTitle">Event Title</h2>
+                
+                <div class="modal-date-time">
+                    <div class="date" id="modalDate">📅 Date</div>
+                    <div class="time" id="modalTime">⏰ Time</div>
+                </div>
+                
+                <div class="modal-description" id="modalDescription">
+                    Event description will appear here...
+                </div>
+                
+                <div class="modal-details">
+                    <h3>Event Details</h3>
+                    <div class="detail-row">
+                        <span class="detail-label">Location</span>
+                        <span class="detail-value" id="modalLocation">Location</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Price</span>
+                        <span class="detail-value" id="modalPrice">Price</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Capacity</span>
+                        <span class="detail-value" id="modalCapacity">Capacity</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">What to Bring</span>
+                        <span class="detail-value">Laptop, notebook, enthusiasm!</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Age Group</span>
+                        <span class="detail-value">All ages welcome</span>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button class="btn-modal btn-modal-attend" id="modalAttendBtn">
+                        ✅ Attend Event
+                    </button>
+                    <button class="btn-modal btn-modal-interested" id="modalInterestedBtn">
+                        📌 Mark as Interested
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
@@ -284,6 +553,7 @@
     </footer>
 
     <script src="../script.js"></script>
+    <script src="../auth.js"></script>
     <script>
         // Sample events data (replace with actual API call)
         const sampleEvents = [
@@ -291,6 +561,7 @@
                 id: 1,
                 title: "STEM Robotics Workshop - Build Your First Robot!",
                 description: "Join us for an exciting hands-on robotics workshop where you'll learn the fundamentals of programming and building robots. Perfect for beginners and intermediate learners!",
+                fullDescription: "Dive into the world of robotics with our comprehensive hands-on workshop! This beginner-friendly session will introduce you to the basics of robot construction, programming, and operation. You'll work with industry-standard components including Arduino microcontrollers, sensors, and motors to build your very own functional robot.\n\nWhat you'll learn:\n• Basic electronics and circuit design\n• Programming fundamentals with Arduino IDE\n• Sensor integration and data processing\n• Motor control and movement algorithms\n• Problem-solving through engineering design\n\nOur experienced instructors will guide you through each step, ensuring everyone leaves with a working robot and the knowledge to continue their robotics journey. All materials and tools are provided, and you'll take home your completed robot!",
                 date: "2025-01-25",
                 time: "2:00 PM",
                 location: "Alphabots4All STEM Lab, 123 Innovation Drive, Fremont, CA",
@@ -304,6 +575,7 @@
                 id: 2,
                 title: "FTC Championship Viewing Party",
                 description: "Come watch the FIRST Tech Challenge World Championship with our team! We'll be streaming the live competition, providing snacks, and discussing strategies.",
+                fullDescription: "Join our robotics community for an exciting viewing party of the FIRST Tech Challenge World Championship! This is a fantastic opportunity to witness top-tier robotics competition while learning about strategy, teamwork, and innovation.\n\nEvent highlights:\n• Live streaming of championship matches in HD\n• Expert commentary from our experienced mentors\n• Interactive discussions about robot designs and strategies\n• Q&A sessions with former FTC competitors\n• Networking opportunities with local robotics enthusiasts\n• Free snacks and refreshments throughout the event\n\nWhether you're new to robotics or a seasoned veteran, this event offers valuable insights into competitive robotics. You'll see cutting-edge robot designs, learn about the engineering design process, and get inspired for your own robotics projects. This is also a great chance to meet other robotics enthusiasts and potentially join our team!",
                 date: "2025-02-15",
                 time: "10:00 AM",
                 location: "Community Center, 456 Tech Boulevard, Fremont, CA",
@@ -318,6 +590,8 @@
         // Load events on page load
         document.addEventListener('DOMContentLoaded', function() {
             loadEvents();
+            // Check interested status after events are loaded
+            setTimeout(checkInterestedStatus, 100);
         });
 
         function loadEvents() {
@@ -387,11 +661,11 @@
                     </div>
                     
                     <div class="event-footer">
-                        <button class="btn-event btn-interested" onclick="toggleInterest(${event.id})">
-                            ⭐ Interested?
+                        <button class="btn-event btn-rsvp" onclick="toggleAttending(${event.id})">
+                            📖 Read More
                         </button>
-                        <button class="btn-event btn-rsvp" onclick="toggleRSVP(${event.id})">
-                            RSVP
+                        <button class="btn-event btn-interested" onclick="toggleInterest(${event.id})">
+                            📌 Interested
                         </button>
                     </div>
                 </div>
@@ -401,12 +675,198 @@
         }
 
         function toggleInterest(eventId) {
-            alert('Please sign in to mark interest in this event');
+            // Check if user is signed in
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            
+            if (!token || !user) {
+                alert('Please sign in to mark interest in this event');
+                return;
+            }
+            
+            // Get current interested events from localStorage
+            let interestedEvents = JSON.parse(localStorage.getItem('interestedEvents') || '[]');
+            
+            // Check if event is already in interested list
+            const eventIndex = interestedEvents.findIndex(event => event.id === eventId);
+            
+            if (eventIndex > -1) {
+                // Remove from interested list
+                interestedEvents.splice(eventIndex, 1);
+                localStorage.setItem('interestedEvents', JSON.stringify(interestedEvents));
+                updateInterestButton(eventId, false);
+            } else {
+                // Find the event details from sample events
+                const eventDetails = sampleEvents.find(event => event.id === eventId);
+                if (eventDetails) {
+                    // Add to interested list
+                    interestedEvents.push({
+                        id: eventDetails.id,
+                        title: eventDetails.title,
+                        date: eventDetails.date,
+                        time: eventDetails.time
+                    });
+                    localStorage.setItem('interestedEvents', JSON.stringify(interestedEvents));
+                    updateInterestButton(eventId, true);
+                }
+            }
+        }
+        
+        function updateInterestButton(eventId, isInterested) {
+            const button = document.querySelector(`button[onclick="toggleInterest(${eventId})"]`);
+            if (button) {
+                if (isInterested) {
+                    button.innerHTML = '📌 Interested ✓';
+                    button.style.background = 'rgba(74, 144, 226, 0.1)';
+                } else {
+                    button.innerHTML = '📌 Interested';
+                    button.style.background = 'var(--neu-bg)';
+                }
+            }
+        }
+        
+        function checkInterestedStatus() {
+            const interestedEvents = JSON.parse(localStorage.getItem('interestedEvents') || '[]');
+            interestedEvents.forEach(event => {
+                updateInterestButton(event.id, true);
+            });
         }
 
-        function toggleRSVP(eventId) {
-            alert('Please sign in to RSVP for this event');
+        function toggleAttending(eventId) {
+            // Find event details
+            const eventDetails = sampleEvents.find(event => event.id === eventId);
+            if (!eventDetails) return;
+            
+            // Open modal with event details
+            openEventModal(eventDetails);
         }
+        
+        function openEventModal(event) {
+            const modal = document.getElementById('eventModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDate = document.getElementById('modalDate');
+            const modalTime = document.getElementById('modalTime');
+            const modalDescription = document.getElementById('modalDescription');
+            const modalLocation = document.getElementById('modalLocation');
+            const modalPrice = document.getElementById('modalPrice');
+            const modalCapacity = document.getElementById('modalCapacity');
+            const modalInterestedBtn = document.getElementById('modalInterestedBtn');
+            const modalAttendBtn = document.getElementById('modalAttendBtn');
+            
+            // Format date
+            const eventDate = new Date(event.date);
+            const formattedDate = eventDate.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            // Populate modal with event data
+            modalImage.textContent = event.image;
+            modalTitle.textContent = event.title;
+            modalDate.textContent = `📅 ${formattedDate}`;
+            modalTime.textContent = `⏰ ${event.time}`;
+            modalDescription.innerHTML = event.fullDescription.replace(/\n/g, '<br>');
+            modalLocation.textContent = event.location.split(',')[0];
+            modalPrice.textContent = event.price === 0 ? 'Free' : `$${event.price}`;
+            modalCapacity.textContent = `${event.attendees}/${event.capacity}`;
+            
+            // Set up button click handlers
+            modalInterestedBtn.onclick = () => {
+                toggleInterest(event.id);
+                updateModalInterestButton(event.id);
+            };
+            
+            modalAttendBtn.onclick = () => {
+                handleAttendPayment(event);
+            };
+            
+            // Update interested button state
+            updateModalInterestButton(event.id);
+            
+            // Show modal
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function updateModalInterestButton(eventId) {
+            const interestedEvents = JSON.parse(localStorage.getItem('interestedEvents') || '[]');
+            const isInterested = interestedEvents.some(event => event.id === eventId);
+            const modalInterestedBtn = document.getElementById('modalInterestedBtn');
+            
+            if (isInterested) {
+                modalInterestedBtn.innerHTML = '📌 Interested ✓';
+                modalInterestedBtn.style.background = 'rgba(74, 144, 226, 0.1)';
+            } else {
+                modalInterestedBtn.innerHTML = '📌 Mark as Interested';
+                modalInterestedBtn.style.background = 'var(--neu-bg)';
+            }
+        }
+        
+        function handleAttendPayment(event) {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            
+            if (!token || !user) {
+                alert('Please sign in to attend this event');
+                return;
+            }
+            
+            if (event.price === 0) {
+                // Free event - directly add to attending
+                addToAttending(event);
+                alert('Successfully registered for this free event!');
+                closeModal();
+            } else {
+                // Paid event - redirect to payment (placeholder for now)
+                alert(`This event costs $${event.price}. Payment processing will be implemented soon!`);
+                // TODO: Implement actual payment processing
+                // For now, just add to attending after "payment"
+                addToAttending(event);
+                closeModal();
+            }
+        }
+        
+        function addToAttending(event) {
+            let attendingEvents = JSON.parse(localStorage.getItem('attendingEvents') || '[]');
+            
+            // Check if already attending
+            if (attendingEvents.some(e => e.id === event.id)) {
+                return;
+            }
+            
+            // Add to attending list
+            attendingEvents.push({
+                id: event.id,
+                title: event.title,
+                date: event.date,
+                time: event.time
+            });
+            
+            localStorage.setItem('attendingEvents', JSON.stringify(attendingEvents));
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('eventModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal when clicking X or outside
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('eventModal');
+            const closeBtn = document.querySelector('.modal-close');
+            
+            closeBtn.addEventListener('click', closeModal);
+            
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+        });
     </script>
 </body>
 </html>

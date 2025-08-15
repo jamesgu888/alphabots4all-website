@@ -133,30 +133,40 @@ document.addEventListener('DOMContentLoaded', function() {
                user.role === 'admin';
     }
     
-    // Update UI based on auth status
+    // Update UI based on auth status - called immediately and on load
     function updateAuthUI() {
         const user = checkAuth();
         const signinButton = document.querySelector('.btn-signin');
         const navLinks = document.querySelector('.nav-links');
+        const adminLink = document.querySelector('a[href*="admin-dashboard"]');
+        
+        // Show/hide admin link based on user status
+        if (adminLink) {
+            const adminListItem = adminLink.parentElement;
+            if (user && isAdmin(user)) {
+                adminListItem.style.display = 'list-item';
+                adminListItem.style.opacity = '1';
+                adminListItem.style.visibility = 'visible';
+            } else {
+                adminListItem.style.display = 'none';
+                adminListItem.style.opacity = '0';
+                adminListItem.style.visibility = 'hidden';
+            }
+        }
         
         if (user && signinButton) {
-            signinButton.textContent = user.name || user.email;
-            signinButton.href = '#profile';
+            signinButton.textContent = 'Dashboard';
+            // Determine correct path based on current location
+            const currentPath = window.location.pathname;
+            const isInPagesFolder = currentPath.includes('/pages/');
+            const dashboardPath = isInPagesFolder ? 'user-dashboard.html' : 'pages/user-dashboard.html';
+            signinButton.href = dashboardPath;
             
-            // Admin button is already in the static navigation, no need to add dynamically
-            
-            // Add sign out option (only if not already added)
-            if (!signinButton.hasAttribute('data-signout-handler')) {
-                signinButton.setAttribute('data-signout-handler', 'true');
-                signinButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    if (confirm('Do you want to sign out?')) {
-                        localStorage.removeItem('token');
-                        localStorage.removeItem('user');
-                        window.location.reload();
-                    }
-                });
-            }
+            // Remove any existing click handlers to allow normal navigation
+            signinButton.removeAttribute('data-signout-handler');
+            // Clone and replace to remove all event listeners
+            const newSigninButton = signinButton.cloneNode(true);
+            signinButton.parentNode.replaceChild(newSigninButton, signinButton);
         }
     }
     

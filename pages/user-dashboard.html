@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard - Alphabots4All</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            overflow-y: auto;
+            background: var(--neu-bg);
+        }
+        
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem 2rem;
+            padding-top: 8rem;
+        }
+        
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .dashboard-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+            background: linear-gradient(135deg, var(--neu-primary) 0%, var(--neu-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .dashboard-header p {
+            font-size: 1.2rem;
+            color: var(--neu-text-light);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .user-greeting {
+            background: var(--neu-bg);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            box-shadow: 9px 9px 16px var(--neu-shadow-dark), -9px -9px 16px var(--neu-shadow-light);
+        }
+        
+        .greeting-text {
+            font-size: 1.3rem;
+            color: var(--neu-primary);
+            font-weight: 600;
+        }
+        
+        .dashboard-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }s
+        
+        .dashboard-section {
+            background: var(--neu-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 12px 12px 20px var(--neu-shadow-dark), -12px -12px 20px var(--neu-shadow-light);
+        }
+        
+        .dashboard-section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--neu-primary) !important;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--neu-primary);
+        }
+        
+        .section-icon {
+            font-size: 1.2rem;
+        }
+        
+        .event-item {
+            background: var(--neu-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 6px 6px 12px var(--neu-shadow-dark), -6px -6px 12px var(--neu-shadow-light);
+            transition: all 0.3s ease;
+        }
+        
+        .event-item:hover {
+            box-shadow: inset 6px 6px 12px var(--neu-inset-dark), inset -6px -6px 12px var(--neu-inset-light);
+        }
+        
+        .event-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .event-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--neu-text-dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .event-date {
+            font-size: 0.9rem;
+            color: var(--neu-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .event-status {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .status-interested {
+            background: rgba(255, 152, 0, 0.1);
+            color: #ff9800;
+        }
+        
+        .status-rsvp {
+            background: rgba(74, 144, 226, 0.1);
+            color: var(--neu-primary);
+        }
+        
+        .no-events {
+            text-align: center;
+            padding: 2rem;
+            color: var(--neu-text-light);
+            font-style: italic;
+        }
+        
+        .quick-actions {
+            background: var(--neu-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 12px 12px 20px var(--neu-shadow-dark), -12px -12px 20px var(--neu-shadow-light);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-action {
+            flex: 1;
+            min-width: 200px;
+            padding: 1rem 1.5rem;
+            background: var(--neu-bg);
+            color: var(--neu-primary);
+            border: none;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 6px 6px 12px var(--neu-shadow-dark), -6px -6px 12px var(--neu-shadow-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-action:hover {
+            box-shadow: inset 6px 6px 12px var(--neu-inset-dark), inset -6px -6px 12px var(--neu-inset-light);
+            color: var(--neu-secondary);
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-sections {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn-action {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="neural-bg"></canvas>
+    
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="Alphabots4All Logo" class="logo-img">
+                <span>Alphabots4All</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html" class="neural-link">Home</a></li>
+                <li><a href="events.html" class="neural-link">Events</a></li>
+                <li><a href="blogs.html" class="neural-link">Blogs</a></li>
+                <li><a href="about.html" class="neural-link">About</a></li>
+                <li style="display: none;"><a href="admin-dashboard.html" class="neural-link">Admin</a></li>
+                <li><a href="signin.html" class="btn-signin">Sign In</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="dashboard-container">
+        <div id="dashboard-content" style="display: none;">
+            <div class="dashboard-header">
+                <h1>My Dashboard</h1>
+                <p>Track your event interests and RSVPs</p>
+            </div>
+            
+            <div class="user-greeting" id="user-greeting">
+                <div class="greeting-text">Welcome back!</div>
+            </div>
+            
+            <div class="dashboard-sections">
+                <div class="dashboard-section">
+                    <h3 class="dashboard-section-title">
+                        <span class="section-icon">✅</span>
+                        Events I'm Attending
+                    </h3>
+                    <div id="attending-events">
+                        <div class="no-events">No events attending yet</div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-section">
+                    <h3 class="dashboard-section-title">
+                        <span class="section-icon">📌</span>
+                        My Interested Events
+                    </h3>
+                    <div id="interested-events">
+                        <div class="no-events">No interested events yet</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="quick-actions">
+                <h3 class="section-title">
+                    <span class="section-icon">🚀</span>
+                    Quick Actions
+                </h3>
+                <div class="action-buttons">
+                    <a href="events.html" class="btn-action">
+                        📅 Browse Events
+                    </a>
+                    <a href="blogs.html" class="btn-action">
+                        📖 Read Blogs
+                    </a>
+                    <button class="btn-action" onclick="signOut()" style="background: #e74c3c; color: white;">
+                        🚪 Sign Out
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="access-denied" style="display: none;">
+            <div class="dashboard-section" style="text-align: center; padding: 4rem 2rem;">
+                <div style="font-size: 4rem; margin-bottom: 1rem;">🔒</div>
+                <h2 style="color: var(--neu-text-dark); margin-bottom: 1rem;">Access Required</h2>
+                <p style="color: var(--neu-text-light); margin-bottom: 2rem;">
+                    Please sign in to view your dashboard
+                </p>
+                <a href="signin.html" class="btn-action" style="display: inline-flex; min-width: auto;">
+                    🔑 Sign In
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Alphabots4All</h4>
+                <p>Empowering the next generation through STEM education and robotics.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook">FB</a>
+                    <a href="#" aria-label="Twitter">TW</a>
+                    <a href="#" aria-label="LinkedIn">LI</a>
+                    <a href="#" aria-label="Instagram">IG</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>Email: info@alphabots4all.org</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Alphabots4All. All rights reserved. | 501(c)(3) Nonprofit Organization</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+    <script src="../auth.js"></script>
+    <script>
+        // Sample user event data (in real app, this would come from server)
+        const userEventData = {
+            attending: [
+                {
+                    id: 2,
+                    title: "FTC Championship Viewing Party", 
+                    date: "2025-02-15",
+                    time: "10:00 AM"
+                }
+            ],
+            interested: [
+                {
+                    id: 1,
+                    title: "STEM Robotics Workshop - Build Your First Robot!",
+                    date: "2025-01-25",
+                    time: "2:00 PM"
+                }
+            ]
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            function checkAuth() {
+                const token = localStorage.getItem('token');
+                const user = localStorage.getItem('user');
+                
+                if (token && user) {
+                    return JSON.parse(user);
+                }
+                return null;
+            }
+            
+            const user = checkAuth();
+            const dashboardContent = document.getElementById('dashboard-content');
+            const accessDenied = document.getElementById('access-denied');
+            const userGreeting = document.getElementById('user-greeting');
+            
+            if (user) {
+                dashboardContent.style.display = 'block';
+                accessDenied.style.display = 'none';
+                
+                // Update greeting
+                const greetingText = userGreeting.querySelector('.greeting-text');
+                greetingText.textContent = `Welcome back, ${user.name || user.email}!`;
+                
+                // Load user's event data
+                loadUserEvents();
+            } else {
+                dashboardContent.style.display = 'none';
+                accessDenied.style.display = 'block';
+            }
+        });
+        
+        function loadUserEvents() {
+            loadAttendingEvents();
+            loadInterestedEvents();
+        }
+        
+        function loadAttendingEvents() {
+            const container = document.getElementById('attending-events');
+            // Get attending events from localStorage
+            const events = JSON.parse(localStorage.getItem('attendingEvents') || '[]');
+            
+            if (events.length === 0) {
+                container.innerHTML = '<div class="no-events">No events attending yet</div>';
+                return;
+            }
+            
+            container.innerHTML = events.map(event => `
+                <div class="event-item">
+                    <div class="event-title">${event.title}</div>
+                    <div style="color: var(--neu-text-light); font-size: 0.9rem; margin-top: 0.5rem;">${formatDate(event.date)} at ${event.time}</div>
+                </div>
+            `).join('');
+        }
+        
+        function loadInterestedEvents() {
+            const container = document.getElementById('interested-events');
+            // Get interested events from localStorage
+            const events = JSON.parse(localStorage.getItem('interestedEvents') || '[]');
+            
+            if (events.length === 0) {
+                container.innerHTML = '<div class="no-events">No interested events yet</div>';
+                return;
+            }
+            
+            container.innerHTML = events.map(event => `
+                <div class="event-item">
+                    <div class="event-title">${event.title}</div>
+                    <div style="color: var(--neu-text-light); font-size: 0.9rem; margin-top: 0.5rem;">${formatDate(event.date)} at ${event.time}</div>
+                </div>
+            `).join('');
+        }
+        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+        
+        function signOut() {
+            if (confirm('Are you sure you want to sign out?')) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.href = '../index.html';
+            }
+        }
+    </script>
+</body>
+</html>
