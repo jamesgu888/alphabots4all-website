@@ -552,40 +552,12 @@
         </div>
     </footer>
 
-    <script src="../script.js"></script>
-    <script src="../auth.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/events-data.js"></script>
     <script>
-        // Sample events data (replace with actual API call)
-        const sampleEvents = [
-            {
-                id: 1,
-                title: "STEM Robotics Workshop - Build Your First Robot!",
-                description: "Join us for an exciting hands-on robotics workshop where you'll learn the fundamentals of programming and building robots. Perfect for beginners and intermediate learners!",
-                fullDescription: "Dive into the world of robotics with our comprehensive hands-on workshop! This beginner-friendly session will introduce you to the basics of robot construction, programming, and operation. You'll work with industry-standard components including Arduino microcontrollers, sensors, and motors to build your very own functional robot.\n\nWhat you'll learn:\n• Basic electronics and circuit design\n• Programming fundamentals with Arduino IDE\n• Sensor integration and data processing\n• Motor control and movement algorithms\n• Problem-solving through engineering design\n\nOur experienced instructors will guide you through each step, ensuring everyone leaves with a working robot and the knowledge to continue their robotics journey. All materials and tools are provided, and you'll take home your completed robot!",
-                date: "2025-01-25",
-                time: "2:00 PM",
-                location: "Alphabots4All STEM Lab, 123 Innovation Drive, Fremont, CA",
-                price: 25,
-                capacity: 20,
-                attendees: 0,
-                status: "upcoming",
-                image: "🤖"
-            },
-            {
-                id: 2,
-                title: "FTC Championship Viewing Party",
-                description: "Come watch the FIRST Tech Challenge World Championship with our team! We'll be streaming the live competition, providing snacks, and discussing strategies.",
-                fullDescription: "Join our robotics community for an exciting viewing party of the FIRST Tech Challenge World Championship! This is a fantastic opportunity to witness top-tier robotics competition while learning about strategy, teamwork, and innovation.\n\nEvent highlights:\n• Live streaming of championship matches in HD\n• Expert commentary from our experienced mentors\n• Interactive discussions about robot designs and strategies\n• Q&A sessions with former FTC competitors\n• Networking opportunities with local robotics enthusiasts\n• Free snacks and refreshments throughout the event\n\nWhether you're new to robotics or a seasoned veteran, this event offers valuable insights into competitive robotics. You'll see cutting-edge robot designs, learn about the engineering design process, and get inspired for your own robotics projects. This is also a great chance to meet other robotics enthusiasts and potentially join our team!",
-                date: "2025-02-15",
-                time: "10:00 AM",
-                location: "Community Center, 456 Tech Boulevard, Fremont, CA",
-                price: 0,
-                capacity: 50,
-                attendees: 0,
-                status: "free",
-                image: "🏆"
-            }
-        ];
+        // Get events from the shared data module
+        const sampleEvents = getAllEvents();
 
         // Load events on page load
         document.addEventListener('DOMContentLoaded', function() {
@@ -661,8 +633,8 @@
                     </div>
                     
                     <div class="event-footer">
-                        <button class="btn-event btn-rsvp" onclick="toggleAttending(${event.id})">
-                            📖 Read More
+                        <button class="btn-event btn-rsvp" onclick="viewEventDetails('${event.slug || event.id}')">
+                            📖 View Details
                         </button>
                         <button class="btn-event btn-interested" onclick="toggleInterest(${event.id})">
                             📌 Interested
@@ -732,6 +704,11 @@
             });
         }
 
+        function viewEventDetails(eventSlug) {
+            // Navigate to the individual event page
+            window.location.href = `event-details.html?event=${eventSlug}`;
+        }
+        
         function toggleAttending(eventId) {
             // Find event details
             const eventDetails = sampleEvents.find(event => event.id === eventId);
@@ -789,6 +766,14 @@
             // Show modal
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
+            
+            // Reset modal scroll to top after a brief delay to ensure DOM is ready
+            setTimeout(() => {
+                const modalContent = document.querySelector('.modal-content');
+                if (modalContent) {
+                    modalContent.scrollTop = 0;
+                }
+            }, 10);
         }
         
         function updateModalInterestButton(eventId) {

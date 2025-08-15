@@ -179,6 +179,200 @@
             color: var(--neu-secondary);
         }
         
+        .event-item {
+            cursor: pointer;
+        }
+        
+        /* Modal Styles */
+        .event-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(2px);
+        }
+        
+        .modal-content {
+            position: relative;
+            background: var(--neu-bg);
+            margin: 2% auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 20px 20px 40px var(--neu-shadow-dark), -20px -20px 40px var(--neu-shadow-light);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--neu-text-light);
+            cursor: pointer;
+            z-index: 1001;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #a8d5f2 0%, #7bc3e8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            color: white;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+        }
+        
+        .modal-body {
+            padding: 2rem;
+        }
+        
+        .modal-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--neu-text-dark);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+        
+        .modal-date-time {
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-date-time .date {
+            font-size: 1.1rem;
+            color: var(--neu-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .modal-date-time .time {
+            font-size: 1rem;
+            color: var(--neu-text-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 22px;
+        }
+        
+        .modal-description {
+            color: var(--neu-text-dark);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .modal-details {
+            background: var(--neu-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: inset 6px 6px 12px var(--neu-inset-dark), inset -6px -6px 12px var(--neu-inset-light);
+        }
+        
+        .modal-details h3 {
+            color: var(--neu-primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        
+        .detail-label {
+            color: var(--neu-text-light);
+            font-weight: 500;
+        }
+        
+        .detail-value {
+            color: var(--neu-text-dark);
+            font-weight: 600;
+        }
+        
+        .modal-footer {
+            padding: 0 2rem 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .btn-modal {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            white-space: nowrap;
+            width: 220px;
+        }
+        
+        .btn-modal-attend {
+            background: var(--neu-primary);
+            color: white;
+            box-shadow: 0 8px 20px rgba(74, 144, 226, 0.3);
+        }
+        
+        .btn-modal-attend:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(74, 144, 226, 0.4);
+        }
+        
+        .btn-modal-interested {
+            background: var(--neu-bg);
+            color: var(--neu-primary);
+            box-shadow: 6px 6px 12px var(--neu-shadow-dark), -6px -6px 12px var(--neu-shadow-light);
+        }
+        
+        .btn-modal-interested:hover {
+            box-shadow: inset 6px 6px 12px var(--neu-inset-dark), inset -6px -6px 12px var(--neu-inset-light);
+        }
+        
         @media (max-width: 768px) {
             .dashboard-sections {
                 grid-template-columns: 1fr;
@@ -190,6 +384,24 @@
             
             .btn-action {
                 min-width: auto;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+            }
+            
+            .modal-header {
+                height: 200px;
+                font-size: 4rem;
+            }
+            
+            .modal-footer {
+                flex-direction: column;
+            }
+            
+            .btn-modal {
+                width: 100%;
             }
         }
     </style>
@@ -285,6 +497,53 @@
         </div>
     </div>
     
+    <!-- Event Detail Modal -->
+    <div id="eventModal" class="event-modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-header" id="modalImage">
+                🤖
+            </div>
+            <div class="modal-body">
+                <h2 class="modal-title" id="modalTitle">Event Title</h2>
+                
+                <div class="modal-date-time">
+                    <div class="date" id="modalDate">📅 Date</div>
+                    <div class="time" id="modalTime">⏰ Time</div>
+                </div>
+                
+                <div class="modal-description" id="modalDescription">
+                    Event description will appear here...
+                </div>
+                
+                <div class="modal-details">
+                    <h3>Event Details</h3>
+                    <div class="detail-row">
+                        <span class="detail-label">Location</span>
+                        <span class="detail-value" id="modalLocation">Location</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Price</span>
+                        <span class="detail-value" id="modalPrice">Price</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Capacity</span>
+                        <span class="detail-value" id="modalCapacity">Capacity</span>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button class="btn-modal btn-modal-attend" id="modalAttendBtn">
+                        ✅ Attend Event
+                    </button>
+                    <button class="btn-modal btn-modal-interested" id="modalInterestedBtn">
+                        📌 Mark as Interested
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
@@ -307,28 +566,12 @@
         </div>
     </footer>
 
-    <script src="../script.js"></script>
-    <script src="../auth.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/events-data.js"></script>
     <script>
-        // Sample user event data (in real app, this would come from server)
-        const userEventData = {
-            attending: [
-                {
-                    id: 2,
-                    title: "FTC Championship Viewing Party", 
-                    date: "2025-02-15",
-                    time: "10:00 AM"
-                }
-            ],
-            interested: [
-                {
-                    id: 1,
-                    title: "STEM Robotics Workshop - Build Your First Robot!",
-                    date: "2025-01-25",
-                    time: "2:00 PM"
-                }
-            ]
-        };
+        // Get events from the shared data module
+        const sampleEvents = getAllEvents();
 
         document.addEventListener('DOMContentLoaded', function() {
             function checkAuth() {
@@ -378,7 +621,7 @@
             }
             
             container.innerHTML = events.map(event => `
-                <div class="event-item">
+                <div class="event-item" onclick="openEventFromDashboard(${event.id})">
                     <div class="event-title">${event.title}</div>
                     <div style="color: var(--neu-text-light); font-size: 0.9rem; margin-top: 0.5rem;">${formatDate(event.date)} at ${event.time}</div>
                 </div>
@@ -420,6 +663,185 @@
                 window.location.href = '../index.html';
             }
         }
+        
+        // Modal functions
+        function openEventFromDashboard(eventId) {
+            // Find the event details from sample events
+            const event = sampleEvents.find(e => e.id === eventId);
+            if (event) {
+                openEventModal(event);
+            }
+        }
+        
+        function openEventModal(event) {
+            const modal = document.getElementById('eventModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDate = document.getElementById('modalDate');
+            const modalTime = document.getElementById('modalTime');
+            const modalDescription = document.getElementById('modalDescription');
+            const modalLocation = document.getElementById('modalLocation');
+            const modalPrice = document.getElementById('modalPrice');
+            const modalCapacity = document.getElementById('modalCapacity');
+            const modalInterestedBtn = document.getElementById('modalInterestedBtn');
+            const modalAttendBtn = document.getElementById('modalAttendBtn');
+            
+            // Format date
+            const eventDate = new Date(event.date);
+            const formattedDate = eventDate.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            // Populate modal with event data
+            modalImage.textContent = event.image;
+            modalTitle.textContent = event.title;
+            modalDate.textContent = `📅 ${formattedDate}`;
+            modalTime.textContent = `⏰ ${event.time}`;
+            modalDescription.innerHTML = event.fullDescription.replace(/\n/g, '<br>');
+            modalLocation.textContent = event.location.split(',')[0];
+            modalPrice.textContent = event.price === 0 ? 'Free' : `$${event.price}`;
+            modalCapacity.textContent = `${event.attendees}/${event.capacity}`;
+            
+            // Set up button click handlers
+            modalInterestedBtn.onclick = () => {
+                toggleInterest(event.id);
+                updateModalInterestButton(event.id);
+            };
+            
+            modalAttendBtn.onclick = () => {
+                handleAttendPayment(event);
+            };
+            
+            // Update interested button state
+            updateModalInterestButton(event.id);
+            
+            // Show modal
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // Reset modal scroll to top after a brief delay to ensure DOM is ready
+            setTimeout(() => {
+                const modalContent = document.querySelector('.modal-content');
+                if (modalContent) {
+                    modalContent.scrollTop = 0;
+                }
+            }, 10);
+        }
+        
+        function updateModalInterestButton(eventId) {
+            const interestedEvents = JSON.parse(localStorage.getItem('interestedEvents') || '[]');
+            const isInterested = interestedEvents.some(event => event.id === eventId);
+            const modalInterestedBtn = document.getElementById('modalInterestedBtn');
+            
+            if (isInterested) {
+                modalInterestedBtn.innerHTML = '📌 Interested ✓';
+                modalInterestedBtn.style.background = 'rgba(74, 144, 226, 0.1)';
+            } else {
+                modalInterestedBtn.innerHTML = '📌 Mark as Interested';
+                modalInterestedBtn.style.background = 'var(--neu-bg)';
+            }
+        }
+        
+        function toggleInterest(eventId) {
+            // Get current interested events from localStorage
+            let interestedEvents = JSON.parse(localStorage.getItem('interestedEvents') || '[]');
+            
+            // Check if event is already in interested list
+            const eventIndex = interestedEvents.findIndex(event => event.id === eventId);
+            
+            if (eventIndex > -1) {
+                // Remove from interested list
+                interestedEvents.splice(eventIndex, 1);
+                localStorage.setItem('interestedEvents', JSON.stringify(interestedEvents));
+                updateModalInterestButton(eventId);
+            } else {
+                // Find the event details from sample events
+                const eventDetails = sampleEvents.find(event => event.id === eventId);
+                if (eventDetails) {
+                    // Add to interested list
+                    interestedEvents.push({
+                        id: eventDetails.id,
+                        title: eventDetails.title,
+                        date: eventDetails.date,
+                        time: eventDetails.time
+                    });
+                    localStorage.setItem('interestedEvents', JSON.stringify(interestedEvents));
+                    updateModalInterestButton(eventId);
+                }
+            }
+            
+            // Reload the interested events section
+            loadInterestedEvents();
+        }
+        
+        function handleAttendPayment(event) {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            
+            if (!token || !user) {
+                alert('Please sign in to attend this event');
+                return;
+            }
+            
+            if (event.price === 0) {
+                // Free event - directly add to attending
+                addToAttending(event);
+                alert('Successfully registered for this free event!');
+                closeModal();
+            } else {
+                // Paid event - redirect to payment (placeholder for now)
+                alert(`This event costs $${event.price}. Payment processing will be implemented soon!`);
+                // TODO: Implement actual payment processing
+                // For now, just add to attending after "payment"
+                addToAttending(event);
+                closeModal();
+            }
+        }
+        
+        function addToAttending(event) {
+            let attendingEvents = JSON.parse(localStorage.getItem('attendingEvents') || '[]');
+            
+            // Check if already attending
+            if (attendingEvents.some(e => e.id === event.id)) {
+                return;
+            }
+            
+            // Add to attending list
+            attendingEvents.push({
+                id: event.id,
+                title: event.title,
+                date: event.date,
+                time: event.time
+            });
+            
+            localStorage.setItem('attendingEvents', JSON.stringify(attendingEvents));
+            
+            // Reload the attending events section
+            loadAttendingEvents();
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('eventModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal when clicking X or outside
+        const modal = document.getElementById('eventModal');
+        const closeBtn = document.querySelector('.modal-close');
+        
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeModal);
+        }
+        
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
     </script>
 </body>
 </html>

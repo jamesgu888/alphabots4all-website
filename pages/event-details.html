@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details - Alphabots4All</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            overflow-y: auto;
+            background: var(--neu-bg);
+        }
+        
+        .event-detail-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 7rem 1rem 2rem;
+        }
+        
+        .event-hero {
+            background: var(--neu-bg);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 12px 12px 20px var(--neu-shadow-dark), -12px -12px 20px var(--neu-shadow-light);
+            text-align: center;
+        }
+        
+        .event-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .event-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--neu-primary) 0%, var(--neu-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .event-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--neu-text-dark);
+            font-weight: 600;
+        }
+        
+        .event-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        
+        .event-main {
+            background: var(--neu-bg);
+            border-radius: 20px;
+            padding: 1.5rem 3rem;
+            box-shadow: 12px 12px 20px var(--neu-shadow-dark), -12px -12px 20px var(--neu-shadow-light);
+        }
+        
+        .event-sidebar {
+            height: fit-content;
+        }
+        
+        .sidebar-card {
+            background: var(--neu-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 12px 12px 20px var(--neu-shadow-dark), -12px -12px 20px var(--neu-shadow-light);
+        }
+        
+        .sidebar-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--neu-primary);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--neu-primary);
+            padding-bottom: 0.5rem;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+        }
+        
+        .detail-label {
+            color: var(--neu-text-light);
+        }
+        
+        .detail-value {
+            color: var(--neu-text-dark);
+            font-weight: 600;
+            text-align: right;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neu-primary);
+            margin: 1rem 0 0.5rem;
+        }
+        
+        .section-title:first-child {
+            margin-top: 0;
+        }
+        
+        .description-text {
+            color: var(--neu-text-dark);
+            line-height: 1.8;
+            font-size: 1.1rem;
+            white-space: pre-line;
+            margin: 0;
+        }
+        
+        #eventHighlights {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .action-buttons {
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .btn-action {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            white-space: nowrap;
+        }
+        
+        .btn-attend {
+            background: var(--neu-primary);
+            color: white;
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.3);
+        }
+        
+        .btn-attend:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4);
+        }
+        
+        .btn-interested {
+            background: var(--neu-bg);
+            color: var(--neu-primary);
+            box-shadow: 6px 6px 12px var(--neu-shadow-dark), -6px -6px 12px var(--neu-shadow-light);
+        }
+        
+        .btn-interested:hover {
+            box-shadow: inset 6px 6px 12px var(--neu-inset-dark), inset -6px -6px 12px var(--neu-inset-light);
+        }
+        
+        .price-tag {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--neu-primary);
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        .free-tag {
+            color: #27ae60;
+        }
+        
+        .capacity-bar {
+            background: var(--neu-bg);
+            border-radius: 10px;
+            height: 20px;
+            box-shadow: inset 4px 4px 8px var(--neu-inset-dark), inset -4px -4px 8px var(--neu-inset-light);
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        
+        .capacity-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neu-primary), var(--neu-secondary));
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .event-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .event-title {
+                font-size: 2rem;
+            }
+            
+            .action-buttons {
+                flex-direction: row;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="neural-bg"></canvas>
+    
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="../images/logo.png" alt="Alphabots4All Logo" class="logo-img">
+                <span>Alphabots4All</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html" class="neural-link">Home</a></li>
+                <li><a href="events.html" class="neural-link">Events</a></li>
+                <li><a href="blogs.html" class="neural-link">Blogs</a></li>
+                <li><a href="about.html" class="neural-link">About</a></li>
+                <li style="display: none;"><a href="admin-dashboard.html" class="neural-link">Admin</a></li>
+                <li><a href="signin.html" class="btn-signin">Sign In</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="event-detail-container">
+        <div class="event-hero">
+            <div class="event-icon" id="eventIcon">🤖</div>
+            <h1 class="event-title" id="eventTitle">Loading Event...</h1>
+            <div class="event-meta">
+                <div class="meta-item">
+                    <span>📅</span>
+                    <span id="eventDate">Date</span>
+                </div>
+                <div class="meta-item">
+                    <span>⏰</span>
+                    <span id="eventTime">Time</span>
+                </div>
+                <div class="meta-item">
+                    <span>⏱️</span>
+                    <span id="eventDuration">Duration</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="event-content">
+            <div class="event-main">
+                <h2 class="section-title">About This Event</h2>
+                <p class="description-text" id="eventDescription">Loading description...</p>
+                
+                <h2 class="section-title">What You'll Learn</h2>
+                <div id="eventHighlights"></div>
+            </div>
+            
+            <div class="event-sidebar">
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Event Details</h3>
+                    <div class="detail-item">
+                        <span class="detail-label">Location</span>
+                        <span class="detail-value" id="eventLocation">Loading...</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Age Group</span>
+                        <span class="detail-value" id="eventAgeGroup">Loading...</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Category</span>
+                        <span class="detail-value" id="eventCategory">Loading...</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Instructor</span>
+                        <span class="detail-value" id="eventInstructor">Loading...</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Prerequisites</span>
+                        <span class="detail-value" id="eventPrerequisites">Loading...</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">What to Bring</span>
+                        <span class="detail-value" id="eventWhatToBring">Loading...</span>
+                    </div>
+                </div>
+                
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">Registration</h3>
+                    <div class="price-tag" id="eventPrice">Loading...</div>
+                    <div class="detail-item">
+                        <span class="detail-label">Capacity</span>
+                        <span class="detail-value" id="eventCapacity">Loading...</span>
+                    </div>
+                    <div class="capacity-bar">
+                        <div class="capacity-fill" id="capacityFill"></div>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn-action btn-attend" onclick="handleAttend()">✅ Register</button>
+                        <button class="btn-action btn-interested" onclick="handleInterested()">📌 Interested</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Alphabots4All</h4>
+                <p>Empowering the next generation through STEM education and robotics.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>Email: info@alphabots4all.org</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Alphabots4All. All rights reserved. | 501(c)(3) Nonprofit Organization</p>
+        </div>
+    </footer>
+    
+    <script src="../js/script.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/events-data.js"></script>
+    <script>
+        // Get event slug from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const eventSlug = urlParams.get('event') || window.location.pathname.split('/').pop().replace('.html', '');
+        
+        // Load event data
+        function loadEventData() {
+            const event = getEventBySlug(eventSlug) || getEventById(parseInt(eventSlug));
+            
+            if (!event) {
+                // Redirect to events page if event not found
+                window.location.href = 'events.html';
+                return;
+            }
+            
+            // Populate event data
+            document.getElementById('eventIcon').textContent = event.image;
+            document.getElementById('eventTitle').textContent = event.title;
+            document.getElementById('eventDate').textContent = formatDate(event.date);
+            document.getElementById('eventTime').textContent = event.time;
+            document.getElementById('eventDuration').textContent = event.duration;
+            document.getElementById('eventDescription').textContent = event.fullDescription;
+            document.getElementById('eventLocation').textContent = event.location.split(',')[0];
+            document.getElementById('eventAgeGroup').textContent = event.ageGroup;
+            document.getElementById('eventCategory').textContent = event.category.replace('-', ' ');
+            document.getElementById('eventInstructor').textContent = event.instructor;
+            document.getElementById('eventPrerequisites').textContent = event.prerequisites;
+            document.getElementById('eventWhatToBring').textContent = event.whatToBring;
+            
+            // Price
+            const priceElement = document.getElementById('eventPrice');
+            if (event.price === 0) {
+                priceElement.textContent = 'FREE';
+                priceElement.classList.add('free-tag');
+            } else {
+                priceElement.textContent = `$${event.price}`;
+            }
+            
+            // Capacity
+            document.getElementById('eventCapacity').textContent = `${event.attendees}/${event.capacity}`;
+            const capacityPercentage = (event.attendees / event.capacity) * 100;
+            document.getElementById('capacityFill').style.width = `${capacityPercentage}%`;
+            
+            // Update page title
+            document.title = `${event.title} - Alphabots4All`;
+        }
+        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+        
+        function handleAttend() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Please sign in to register for this event');
+                window.location.href = 'signin.html';
+                return;
+            }
+            
+            const event = getEventBySlug(eventSlug) || getEventById(parseInt(eventSlug));
+            if (event.price === 0) {
+                addToAttending(event);
+                alert('Successfully registered for this free event!');
+            } else {
+                alert(`This event costs $${event.price}. Payment processing will be implemented soon!`);
+                addToAttending(event);
+            }
+        }
+        
+        function handleInterested() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Please sign in to mark interest in this event');
+                window.location.href = 'signin.html';
+                return;
+            }
+            
+            const event = getEventBySlug(eventSlug) || getEventById(parseInt(eventSlug));
+            toggleInterest(event);
+        }
+        
+        function addToAttending(event) {
+            let attendingEvents = JSON.parse(localStorage.getItem('attendingEvents') || '[]');
+            
+            if (attendingEvents.some(e => e.id === event.id)) {
+                return;
+            }
+            
+            attendingEvents.push({
+                id: event.id,
+                title: event.title,
+                date: event.date,
+                time: event.time
+            });
+            
+            localStorage.setItem('attendingEvents', JSON.stringify(attendingEvents));
+        }
+        
+        function toggleInterest(event) {
+            let interestedEvents = JSON.parse(localStorage.getItem('interestedEvents') || '[]');
+            const eventIndex = interestedEvents.findIndex(e => e.id === event.id);
+            
+            const btn = document.querySelector('.btn-interested');
+            
+            if (eventIndex > -1) {
+                interestedEvents.splice(eventIndex, 1);
+                btn.innerHTML = '📌 Interested';
+            } else {
+                interestedEvents.push({
+                    id: event.id,
+                    title: event.title,
+                    date: event.date,
+                    time: event.time
+                });
+                btn.innerHTML = '📌 Interested ✓';
+            }
+            
+            localStorage.setItem('interestedEvents', JSON.stringify(interestedEvents));
+        }
+        
+        // Check if already interested
+        function checkInterestStatus() {
+            const interestedEvents = JSON.parse(localStorage.getItem('interestedEvents') || '[]');
+            const event = getEventBySlug(eventSlug) || getEventById(parseInt(eventSlug));
+            
+            if (event && interestedEvents.some(e => e.id === event.id)) {
+                document.querySelector('.btn-interested').innerHTML = '📌 Interested ✓';
+            }
+        }
+        
+        // Load event data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadEventData();
+            checkInterestStatus();
+        });
+    </script>
+</body>
+</html>

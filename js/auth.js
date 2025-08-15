@@ -33,9 +33,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('user', JSON.stringify(data.user));
                     
+                    // Clear any existing event data for fresh session
+                    localStorage.removeItem('attendingEvents');
+                    localStorage.removeItem('interestedEvents');
+                    
                     // Redirect after 1 second
                     setTimeout(() => {
-                        window.location.href = '../index.html';
+                        window.location.href = 'user-dashboard.html';
                     }, 1000);
                 } else {
                     errorMessage.textContent = data.error || 'Sign in failed';
@@ -91,6 +95,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     successMessage.textContent = 'Account created successfully! Redirecting to sign in...';
                     successMessage.style.display = 'block';
                     errorMessage.style.display = 'none';
+                    
+                    // Clear any existing localStorage data for new account
+                    localStorage.removeItem('attendingEvents');
+                    localStorage.removeItem('interestedEvents');
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
                     
                     // Redirect to signin after 2 seconds
                     setTimeout(() => {
